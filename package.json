@@ -1,0 +1,44 @@
+{
+  "name": "thunderpix",
+  "version": "1.0.0",
+  "description": "Biblioteca javascript de padronização de gateways de pagamentos PIX",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --declaration",
+    "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/main.test.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vhratts/thunderpix.git"
+  },
+  "keywords": [
+    "pix"
+  ],
+  "author": "ratts13",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/vhratts/thunderpix/issues"
+  },
+  "homepage": "https://github.com/vhratts/thunderpix#readme",
+  "devDependencies": {
+    "@types/node": "^22.7.6",
+    "@typescript-eslint/eslint-plugin": "^8.9.0",
+    "@typescript-eslint/parser": "^8.9.0",
+    "eslint": "^9.12.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@types/qrcode": "^1.5.5",
+    "axios": "^1.7.7",
+    "axios-cookiejar-support": "^5.0.3",
+    "cpf-cnpj-validator": "^1.0.3",
+    "qrcode": "^1.5.4",
+    "tough-cookie": "^5.0.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0"
+  }
+}
