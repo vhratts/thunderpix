@@ -1,9 +1,8 @@
 /**
- * Testes
+ * Testes 
  */
 
-import ThunderPix from './index';
-import PixProvider from './providers/pix/PixProvider';
+import ThunderPix, { PixProvider } from './index';
 
 (async () => {
   var provider = new PixProvider('91b7482c-3ef1-4eff-8d80-9a59c87773a8');
