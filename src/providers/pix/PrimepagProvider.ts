@@ -7,6 +7,25 @@ export default class PrimepagProvider implements ProviderInterface {
     private clientId: string;
     private clientSecret: string;
     private accessToken: string | null;
+    public providerInfo: object = {
+        name: 'Primepag',
+        description: 'O Banco Digital Completo para Suas Transações Financeiras. Simples, Seguro e Inovador.',
+        documentation: 'https://primepag.com.br/desenvolvedores',
+        isOnline: true,
+        vendor: {
+            name: 'Banco Primepag',
+            shotname: 'prime',
+            url: 'https://primepag.com.br',
+            api: 'https://api.primepag.com.br',
+            versions: [
+                {
+                    name: 'br.com.primepag.api-v1',
+                    version: '1.2.9',
+                    path: '/',
+                }
+            ],
+        },
+    };
 
     constructor(clientId: string, clientSecret: string, isTest: boolean = false) {
         if(isTest){

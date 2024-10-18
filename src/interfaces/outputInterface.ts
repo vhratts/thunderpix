@@ -25,19 +25,19 @@ interface listingPixBillingOutput {
 interface searchPixBillingOutput {
     referenceCode: string;
     valueCents: number;
-    content: string;
+    content?: string;
     status: string;
-    generatorName: string;
-    generatorDocument: string;
-    payerName: string;
-    payerDocument: string;
-    payerBankName: string;
-    payerAgency: string;
-    payerAccount: string;
-    payerAccountType: string;
+    generatorName?: string;
+    generatorDocument?: string;
+    payerName?: string;
+    payerDocument?: string;
+    payerBankName?: string;
+    payerAgency?: string;
+    payerAccount?: string;
+    payerAccountType?: string;
     registrationDate: string;
     paymentDate: string;
-    endToEnd: string;
+    endToEnd?: string;
 }
 
 interface generateProviderWidthdrawOutput {

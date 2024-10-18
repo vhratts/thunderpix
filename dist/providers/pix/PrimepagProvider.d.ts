@@ -4,6 +4,7 @@ export default class PrimepagProvider implements ProviderInterface {
     private clientId;
     private clientSecret;
     private accessToken;
+    providerInfo: object;
     constructor(clientId: string, clientSecret: string, isTest?: boolean);
     generateToken(): Promise<void>;
     private getHeaders;
