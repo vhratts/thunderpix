@@ -61,7 +61,7 @@ class PixProvider {
             name: nomeRecebedor,
             city: cidadeRecebedor,
             transactionId: '***',
-            amount: (valor / 100),
+            amount: valor / 100,
         });
         return payload;
     }
@@ -106,10 +106,12 @@ class PixProvider {
     async generatingPixBilling(body) {
         try {
             body.pixkey = this.pixkey ?? body.pixkey;
-            var valueCents = (Number.isInteger(body.valueCents) ? body.valueCents : Math.round(body.valueCents * 100));
+            var valueCents = Number.isInteger(body.valueCents)
+                ? body.valueCents
+                : Math.round(body.valueCents * 100);
             var pixkey = this.generatePixPayload(body.valueCents, body.pixkey, body.description, body.name, body.city);
             var qrcode = await this.generatePixQRCode(body.pixkey, body.valueCents, body.description, body.name, body.city);
-            var expireTimestamp = Math.round((new Date().getTime() / 1000) + (body.expires ?? 3600));
+            var expireTimestamp = Math.round(new Date().getTime() / 1000 + (body.expires ?? 3600));
             return {
                 qrcode: qrcode,
                 pixkey: pixkey,
@@ -117,21 +119,24 @@ class PixProvider {
                     original: body.valueCents,
                     cents: valueCents,
                     fixed: (valueCents / 100).toFixed(2),
-                    float: (valueCents / 100)
+                    float: valueCents / 100,
                 },
                 expires: {
                     timestamp: expireTimestamp,
                     dateTime: new Date(expireTimestamp * 1000).toLocaleString('pt-BR'),
-                    iso: new Date(expireTimestamp * 1000).toISOString()
+                    iso: new Date(expireTimestamp * 1000).toISOString(),
                 },
-                code: (0, crypto_1.randomUUID)()
+                code: (0, crypto_1.randomUUID)(),
             };
         }
         catch (error) {
-            throw new Error("Fail");
+            throw new Error(`Fail or error: ${error.message}`);
         }
     }
     listingPixBilling(body) {
+        try {
+        }
+        catch (error) { }
         throw new Error('Method not implemented.');
     }
     searchPixBilling(body) {

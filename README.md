@@ -84,3 +84,15 @@ contendo os seguntes parametros:
   "code": "fa99076c-f5d6-49fa-b4d9-51fdd1852fe6"
 }
 ```
+
+## Provedores de pagamento suportados
+
+A tabela abaixo mostra a lista de provedores de pagamento suportados pela biblioteca. 
+De acordo com a atualização do desenvolvimento, esta tabela será modificada.
+
+>- AVISO: Esta tabela é atualizada de acordo com a entrada ou saida de provedores de pagamento do sistema. Caso alguma API fique indisponivel por queda do serviço do provedor, O mesmo será tirado desta biblioteca.
+
+| logo | nome | status |
+|------|------|--------|
+| <img src="https://www.bcb.gov.br/content/estabilidadefinanceira/piximg/logo_pix.png" alt="Logo Pix" width="100" height="40"> | [Pix](https://www.bcb.gov.br/estabilidadefinanceira/pix) | ✅ online |
+| <img src="https://primepag.com.br/wp-content/uploads/2023/12/Logo-Primepag-5-1-1536x339.png" alt="Logo Primepag" width="100" height="25"> | [Banco Primepag](https://primepag.com.br/) | ✅ online |

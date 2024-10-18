@@ -1,7 +1,8 @@
 import ProviderInterface from "./interfaces/ProviderInterface";
 import ThinderPixInterface from "./interfaces/ThunderPixInterface";
 import PixProvider from './providers/pix/PixProvider';
-export { PixProvider };
+import PrimepagProvider from './providers/pix/PrimepagProvider';
+export { PixProvider, PrimepagProvider };
 export default class ThunderPix implements ThinderPixInterface {
     private provider;
     constructor(provider: ProviderInterface);
