@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const qrcode_1 = __importDefault(require("qrcode"));
 const cpf_cnpj_validator_1 = require("cpf-cnpj-validator");
 const pix_1 = __importDefault(require("../../utils/Bacem/pix"));
+const crypto_1 = require("crypto");
 class PixProvider {
     pixkey;
     providerInfo = {
@@ -105,13 +106,25 @@ class PixProvider {
     async generatingPixBilling(body) {
         try {
             body.pixkey = this.pixkey ?? body.pixkey;
+            var valueCents = (Number.isInteger(body.valueCents) ? body.valueCents : Math.round(body.valueCents * 100));
             var pixkey = this.generatePixPayload(body.valueCents, body.pixkey, body.description, body.name, body.city);
             var qrcode = await this.generatePixQRCode(body.pixkey, body.valueCents, body.description, body.name, body.city);
+            var expireTimestamp = Math.round((new Date().getTime() / 1000) + (body.expires ?? 3600));
             return {
                 qrcode: qrcode,
                 pixkey: pixkey,
-                valueCents: body.valueCents,
-                expires: body.expires,
+                value: {
+                    original: body.valueCents,
+                    cents: valueCents,
+                    fixed: (valueCents / 100).toFixed(2),
+                    float: (valueCents / 100)
+                },
+                expires: {
+                    timestamp: expireTimestamp,
+                    dateTime: new Date(expireTimestamp * 1000).toLocaleString('pt-BR'),
+                    iso: new Date(expireTimestamp * 1000).toISOString()
+                },
+                code: (0, crypto_1.randomUUID)()
             };
         }
         catch (error) {

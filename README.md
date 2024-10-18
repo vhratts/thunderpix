@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/version-1.0.0-cyan" alt="version">
+<img src="https://img.shields.io/badge/version-1.0.3-cyan" alt="version">
 <img src="https://img.shields.io/badge/build-pass-info" alt="build">
 <img src="https://img.shields.io/badge/test-pass-green" alt="test">
 </p>
@@ -74,9 +74,13 @@ contendo os seguntes parametros:
 ```json
 {
   "qrcode": "data:image/png;base64,..",
-  "pixkey": "00020126580014BR.GOV.BCB.PIX013691b7482c-3ef1-4eff-8d80-9a59c87773a852040000530398654041.995802BR5909Recebedor6009Sao Paulo62070503***6304E144",
-  "valueCents": 1.99,
-  "expires": 3600,
-  "code": "KQyVUwqU8WkMlV..."
+ "pixkey": "00020126580014BR.GOV.BCB.PIX013691b7482c-3ef1-4eff-8d80-9a59c87773a852040000530398654041.995802BR5909Recebedor6009Sao Paulo62070503***6304E144",
+  "value": { "original": 199, "cents": 199, "fixed": "1.99", "float": 1.99 },
+  "expires": {
+    "timestamp": 1729220402,
+    "dateTime": "18/10/2024, 0:00:02",
+    "iso": "2024-10-18T03:00:02.000Z"
+  },
+  "code": "fa99076c-f5d6-49fa-b4d9-51fdd1852fe6"
 }
 ```

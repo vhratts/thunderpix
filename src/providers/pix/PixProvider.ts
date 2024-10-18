@@ -2,6 +2,7 @@ import qrcode from 'qrcode';
 import { cpf, cnpj } from 'cpf-cnpj-validator';
 import ProviderInterface from '../../interfaces/ProviderInterface';
 import pix from '../../utils/Bacem/pix';
+import { randomUUID } from 'crypto';
 
 export default class PixProvider implements ProviderInterface {
   private pixkey: string;
@@ -151,6 +152,7 @@ export default class PixProvider implements ProviderInterface {
   ): Promise<Object> {
     try {
       body.pixkey = this.pixkey ?? body.pixkey;
+      var valueCents: number = (Number.isInteger(body.valueCents) ?  body.valueCents : Math.round(body.valueCents * 100)); 
       var pixkey = this.generatePixPayload(
         body.valueCents,
         body.pixkey,
@@ -167,11 +169,23 @@ export default class PixProvider implements ProviderInterface {
         body.city,
       );
 
+      var expireTimestamp = Math.round((new Date().getTime() / 1000) + (body.expires ?? 3600));
+
       return {
         qrcode: qrcode,
         pixkey: pixkey,
-        valueCents: body.valueCents,
-        expires: body.expires,
+        value: {
+          original: body.valueCents,
+          cents: valueCents,
+          fixed: (valueCents / 100).toFixed(2),
+          float: (valueCents / 100)
+        },
+        expires: {
+          timestamp: expireTimestamp,
+          dateTime: new Date(expireTimestamp * 1000).toLocaleString('pt-BR'),
+          iso: new Date(expireTimestamp * 1000).toISOString()
+        },
+        code: randomUUID()
       };
     } catch (error) {
     //   console.log(error);

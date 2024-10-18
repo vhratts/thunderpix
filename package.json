@@ -1,6 +1,6 @@
 {
   "name": "thunderpix",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Biblioteca javascript de padronização de gateways de pagamentos PIX",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -39,6 +39,7 @@
     "qrcode": "^1.5.4",
     "tough-cookie": "^5.0.0",
     "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "uuid": "^10.0.0"
   }
 }
