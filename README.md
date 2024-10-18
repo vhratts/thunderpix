@@ -1,5 +1,22 @@
-# thunderpix
+<p align="center">
+<a href="#" target="_blank" style="display: flex; justify-content: center;">
+<img src="app.png" width="400" alt="logo" style="width: 80px;">
+</a>
+</p>
+
+<p align="center">
+<a href="#" style="font-size: 30px;">⚡️ ThunderPix</a>
+</p>
+
+<p align="center">
+<img src="https://img.shields.io/badge/version-1.0.0-cyan" alt="version">
+<img src="https://img.shields.io/badge/build-pass-info" alt="build">
+<img src="https://img.shields.io/badge/test-pass-green" alt="test">
+</p>
+
+<p align="center">
 Biblioteca javascript de padronização de gateways de pagamentos PIX 
+</p>
 
 ## Introdução
 Esta biblioteca tem como intuito fornecer uma interface de desenvolvimento de sistemas de pagamento, agregando as principais bibliotecas do mercado. 
