@@ -109,6 +109,6 @@ Desenvolvedor: Victor Ratts<br>
 Email: victor@vratts.com<br>
 site: [vratts](https://vratts.com)
 
-### Me pague um café ☕️ 😎 
+### Me pague um café ☕️ 🙏 
 Pix: 91b7482c-3ef1-4eff-8d80-9a59c87773a8
 

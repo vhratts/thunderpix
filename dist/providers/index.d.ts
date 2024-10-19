@@ -1,6 +1,6 @@
+import MercadoPagoProvider from './pix/MercadoPagoProvider';
+import PagarMeProvider from './pix/PagarmeProvider';
+import PicPayProvider from './pix/PicPayProvider';
 import PixProvider from './pix/PixProvider';
 import PrimepagProvider from './pix/PrimepagProvider';
-export declare var Providers: {
-    PixProvider: typeof PixProvider;
-    PrimepagProvider: typeof PrimepagProvider;
-};
+export { PixProvider, PrimepagProvider, MercadoPagoProvider, PagarMeProvider, PicPayProvider };

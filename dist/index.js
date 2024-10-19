@@ -3,11 +3,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PrimepagProvider = exports.PixProvider = void 0;
+exports.PagarMeProvider = exports.PicPayProvider = exports.MercadoPagoProvider = exports.PrimepagProvider = exports.PixProvider = void 0;
 const PixProvider_1 = __importDefault(require("./providers/pix/PixProvider"));
 exports.PixProvider = PixProvider_1.default;
 const PrimepagProvider_1 = __importDefault(require("./providers/pix/PrimepagProvider"));
 exports.PrimepagProvider = PrimepagProvider_1.default;
+const MercadoPagoProvider_1 = __importDefault(require("./providers/pix/MercadoPagoProvider"));
+exports.MercadoPagoProvider = MercadoPagoProvider_1.default;
+const PicPayProvider_1 = __importDefault(require("./providers/pix/PicPayProvider"));
+exports.PicPayProvider = PicPayProvider_1.default;
+const PagarmeProvider_1 = __importDefault(require("./providers/pix/PagarmeProvider"));
+exports.PagarMeProvider = PagarmeProvider_1.default;
 class ThunderPix {
     provider;
     constructor(provider) {
