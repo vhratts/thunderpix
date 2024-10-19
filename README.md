@@ -98,6 +98,7 @@ De acordo com a atualização do desenvolvimento, esta tabela será modificada.
 | <img src="https://primepag.com.br/wp-content/uploads/2023/12/Logo-Primepag-5-1-1536x339.png" alt="Logo Primepag" width="100" height="25"> | [Banco Primepag](https://primepag.com.br) | ✅ online | [PrimepagProvider](src/providers/pix/PrimepagProvider.ts) |
 | <img src="https://logodownload.org/wp-content/uploads/2019/06/mercado-pago-logo.png" alt="Logo MercadoPago" width="100" height="25"> | [Mercado Pago](https://www.mercadopago.com.br) | ✅ online | [MercadoPagoProvider](src/providers/pix/MercadoPagoProvider.ts) |
 | <img src="https://cdn.worldvectorlogo.com/logos/picpay-1.svg" alt="Logo PicPay" width="100" height="25"> | [PicPay](https://picpay.com) | ✅ online | [PicPayProvider](src/providers/pix/PicPayProvider.ts) |
+| <img src="https://lojaintegrada.com.br/assets/img/pagarme-logo.png" alt="Logo PicPay" width="100" height="35"> | [Pagar-me](https://pagar.me) | ✅ online | [PagarmeProvider](src/providers/pix/PagarmeProvider.ts) |
 
 ## Bugs e reports
 

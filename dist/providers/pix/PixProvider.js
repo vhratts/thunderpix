@@ -134,9 +134,6 @@ class PixProvider {
         }
     }
     listingPixBilling(body) {
-        try {
-        }
-        catch (error) { }
         throw new Error('Method not implemented.');
     }
     searchPixBilling(body) {
