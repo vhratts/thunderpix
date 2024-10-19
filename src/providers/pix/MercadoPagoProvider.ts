@@ -2,6 +2,12 @@ import axios from 'axios';
 import ProviderInterface from '../../interfaces/ProviderInterface';
 import { randomUUID } from 'crypto';
 
+interface ProviderConstruct {
+    clientId: string,
+    clientSecret: string,
+    isTest: boolean | false
+}
+
 export default class MercadoPagoProvider implements ProviderInterface {
     private baseUrl: string;
     private clientId: string;
@@ -27,15 +33,15 @@ export default class MercadoPagoProvider implements ProviderInterface {
         },
     };
 
-    constructor(clientId: string, clientSecret: string, isTest: boolean = false) {
-        if (isTest) {
+    constructor(configs: ProviderConstruct) {
+        if (configs.isTest) {
             this.baseUrl = 'https://api.mercadopago.com/sandbox';
         } else {
             this.baseUrl = 'https://api.mercadopago.com';
         }
 
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
+        this.clientId = configs.clientId;
+        this.clientSecret = configs.clientSecret;
         this.accessToken = null;
     }
     generateProviderWidthdraw(body?: object): Promise<Object> {

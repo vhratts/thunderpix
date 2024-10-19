@@ -2,6 +2,11 @@ import axios from 'axios';
 import ProviderInterface from '../../interfaces/ProviderInterface';
 import { randomUUID } from 'crypto';
 
+interface ProviderConstruct {
+    token: string,
+    isTest: boolean | false
+}
+
 export default class PicPayProvider implements ProviderInterface {
     private baseUrl: string;
     private token: string;
@@ -26,9 +31,9 @@ export default class PicPayProvider implements ProviderInterface {
         },
     };
 
-    constructor(token: string, isTest: boolean = false) {
-        this.token = token;
-        this.baseUrl = isTest
+    constructor(configs: ProviderConstruct) {
+        this.token = configs.token;
+        this.baseUrl = configs.isTest
             ? 'https://appws.picpay.com/ecommerce/public/sandbox'
             : 'https://appws.picpay.com/ecommerce/public';
     }

@@ -2,6 +2,12 @@ import axios from 'axios';
 import ProviderInterface from '../../interfaces/ProviderInterface';
 import { randomUUID } from 'crypto';
 
+interface ProviderConstruct {
+    clientId: string,
+    clientSecret: string,
+    isTest: boolean | false
+}
+
 export default class PrimepagProvider implements ProviderInterface {
     private baseUrl: string;
     private clientId: string;
@@ -27,15 +33,15 @@ export default class PrimepagProvider implements ProviderInterface {
         },
     };
 
-    constructor(clientId: string, clientSecret: string, isTest: boolean = false) {
-        if(isTest){
+    constructor(configs: ProviderConstruct) {
+        if(configs.isTest){
             this.baseUrl = 'https://api-stg.primepag.com.br';
         } else {
             this.baseUrl = 'https://api.primepag.com.br';
         }
 
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
+        this.clientId = configs.clientId;
+        this.clientSecret = configs.clientSecret;
         this.accessToken = null;
     }
 

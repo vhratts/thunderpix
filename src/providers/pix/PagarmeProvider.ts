@@ -2,6 +2,11 @@ import axios from 'axios';
 import ProviderInterface from '../../interfaces/ProviderInterface';
 import { randomUUID } from 'crypto';
 
+interface ProviderConstruct {
+    apiKey: string,
+    isTest: boolean | false
+}
+
 export default class PagarMeProvider implements ProviderInterface {
     private baseUrl: string;
     private apiKey: string;
@@ -46,8 +51,8 @@ export default class PagarMeProvider implements ProviderInterface {
         },
     };
 
-    constructor(apiKey: string, isTest: boolean = false) {
-        this.apiKey = apiKey;
+    constructor(configs: ProviderConstruct) {
+        this.apiKey = configs.apiKey;
         this.baseUrl = 'https://api.pagar.me/core/v5';
     }
     generateProviderWidthdraw(body?: object): Promise<Object> {

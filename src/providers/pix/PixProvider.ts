@@ -4,6 +4,10 @@ import ProviderInterface from '../../interfaces/ProviderInterface';
 import pix from '../../utils/Bacem/pix';
 import { randomUUID } from 'crypto';
 
+interface ProviderConstruct {
+    pixkey: string
+}
+
 export default class PixProvider implements ProviderInterface {
     private pixkey: string;
     public providerInfo: object = {
@@ -31,8 +35,8 @@ export default class PixProvider implements ProviderInterface {
         },
     };
 
-    public constructor(pixkey: string) {
-        this.pixkey = pixkey;
+    public constructor(configs: ProviderConstruct) {
+        this.pixkey = configs.pixkey;
     }
 
     // Função que gera o payload do Pix (copia e cola)

@@ -50,7 +50,9 @@ No exemplo usaremos um utilitario simples para gerar QrCode de cobrança Pix a p
    * Iniciando uma instancia do provedor
    * de pagamentos (no exemplo, uma chave pix aleatória)
    */
-  var provider = new PixProvider('91b7482c-3ef1-4eff-8d80-9a59c87773a8');
+  var provider = new PixProvider({
+    pixkey: '91b7482c-3ef1-4eff-8d80-9a59c87773a8'
+  });
   /**
    * Inicia o construtor do ThunderPix
    * passando a instancia do provedor de pagamento
