@@ -199,19 +199,21 @@ export default class PixProvider implements ProviderInterface {
     }
 
     listingPixBilling(body?: object): Promise<Object> {
-        try {
-        } catch (error) {}
         throw new Error('Method not implemented.');
     }
+
     searchPixBilling(body?: object): Promise<Object> {
         throw new Error('Method not implemented.');
     }
+
     generateProviderWidthdraw(body?: object): Promise<Object> {
         throw new Error('Method not implemented.');
     }
+
     listProviderWidthdraw(body?: object): Promise<Object> {
         throw new Error('Method not implemented.');
     }
+    
     searchProviderWidthdraw(body?: object): Promise<Object> {
         throw new Error('Method not implemented.');
     }

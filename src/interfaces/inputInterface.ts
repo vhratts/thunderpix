@@ -5,6 +5,12 @@ interface PixGeneratingPixBillingInterface {
     name: string;
     city: string;
     expires: number;
+    callbackUrl: string;
+    returnUrl: string;
+    document: string;
+    email: string,
+    phone: string,
+    lastName: string
 }
 
 interface PixGenerateProviderWidthdraw {
