@@ -1,6 +1,6 @@
 {
   "name": "thunderpix",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Biblioteca javascript de padronização de gateways de pagamentos PIX",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/vhratts/thunderpix.git"
   },
   "keywords": [
-    "pix"
+    "pix", "Bacem", "Primepag", "MercadoPago", "OpenPix", "Cielo", "Pagarme", "PicPay", "EfiPay"
   ],
   "author": "ratts13",
   "license": "GPL-3.0-or-later",

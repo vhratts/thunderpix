@@ -3,4 +3,6 @@ import PagarMeProvider from './pix/PagarmeProvider';
 import PicPayProvider from './pix/PicPayProvider';
 import PixProvider from './pix/PixProvider';
 import PrimepagProvider from './pix/PrimepagProvider';
-export { PixProvider, PrimepagProvider, MercadoPagoProvider, PagarMeProvider, PicPayProvider };
+import OpenPixProvider from './pix/OpenPixProvider';
+import CieloProvider from './pix/CieloProvider';
+export { PixProvider, PrimepagProvider, MercadoPagoProvider, PagarMeProvider, PicPayProvider, OpenPixProvider, CieloProvider };

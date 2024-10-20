@@ -102,6 +102,7 @@ De acordo com a atualização do desenvolvimento, esta tabela será modificada.
 | <img src="https://cdn.worldvectorlogo.com/logos/picpay-1.svg" alt="Logo PicPay" width="100" height="25"> | [PicPay](https://picpay.com) | ✅ online | [PicPayProvider](src/providers/pix/PicPayProvider.ts) |
 | <img src="https://lojaintegrada.com.br/assets/img/pagarme-logo.png" alt="Logo PicPay" width="100" height="35"> | [Pagar-me](https://pagar.me) | ✅ online | [PagarmeProvider](src/providers/pix/PagarmeProvider.ts) |
 | <img src="https://openpix.com.br/_next/static/media/og-openpix.c750b819.png" alt="Logo OpenPix" width="100" height="55"> | [OpenPix](https://openpix.com.br) | ✅ online | [OpenPixProvider](src/providers/pix/OpenPixProvider.ts) |
+| <img src="https://sejaefi.com.br/_ipx/_/images/components/menu/logo-efi-pay-orange.svg" alt="Logo OpenPix" width="100" height="55"> | [EfiPay](https://sejaefi.com.br) | ✅ online | [EfiPayProvider](src/providers/pix/EfiPayProvider.ts) |
 
 ## Bugs e reports
 
