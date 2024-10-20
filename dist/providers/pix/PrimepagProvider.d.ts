@@ -1,11 +1,16 @@
 import ProviderInterface from '../../interfaces/ProviderInterface';
+interface ProviderConstruct {
+    clientId: string;
+    clientSecret: string;
+    isTest: boolean | false;
+}
 export default class PrimepagProvider implements ProviderInterface {
     private baseUrl;
     private clientId;
     private clientSecret;
     private accessToken;
     providerInfo: object;
-    constructor(clientId: string, clientSecret: string, isTest?: boolean);
+    constructor(configs: ProviderConstruct);
     generateToken(): Promise<void>;
     private getHeaders;
     gerarQrCode(valueCents: number, expirationTime?: number, generatorName?: string, generatorDocument?: string): Promise<any>;
@@ -22,3 +27,4 @@ export default class PrimepagProvider implements ProviderInterface {
     listProviderWidthdraw(body: listProviderWidthdraw): Promise<listProviderWidthdrawOutput>;
     searchProviderWidthdraw(body?: object): Promise<Object>;
 }
+export {};

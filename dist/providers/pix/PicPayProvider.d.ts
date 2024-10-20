@@ -1,9 +1,13 @@
 import ProviderInterface from '../../interfaces/ProviderInterface';
+interface ProviderConstruct {
+    token: string;
+    isTest: boolean | false;
+}
 export default class PicPayProvider implements ProviderInterface {
     private baseUrl;
     private token;
     providerInfo: object;
-    constructor(token: string, isTest?: boolean);
+    constructor(configs: ProviderConstruct);
     private getHeaders;
     gerarCobranca(referenceId: string, value: number, callbackUrl: string, returnUrl: string, buyer: {
         firstName: string;
@@ -19,3 +23,4 @@ export default class PicPayProvider implements ProviderInterface {
     listProviderWidthdraw(body: listProviderWidthdraw): Promise<listProviderWidthdrawOutput>;
     searchProviderWidthdraw(body?: object): Promise<Object>;
 }
+export {};

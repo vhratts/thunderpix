@@ -33,8 +33,8 @@ class PixProvider {
             ],
         },
     };
-    constructor(pixkey) {
-        this.pixkey = pixkey;
+    constructor(configs) {
+        this.pixkey = configs.pixkey;
     }
     generatePixPayload(valor, chave = null, descricao = null, nomeRecebedor = null, cidadeRecebedor = null) {
         console.log(valor);

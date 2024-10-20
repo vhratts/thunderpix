@@ -29,15 +29,15 @@ class PrimepagProvider {
             ],
         },
     };
-    constructor(clientId, clientSecret, isTest = false) {
-        if (isTest) {
+    constructor(configs) {
+        if (configs.isTest) {
             this.baseUrl = 'https://api-stg.primepag.com.br';
         }
         else {
             this.baseUrl = 'https://api.primepag.com.br';
         }
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
+        this.clientId = configs.clientId;
+        this.clientSecret = configs.clientSecret;
         this.accessToken = null;
     }
     async generateToken() {

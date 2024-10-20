@@ -47,8 +47,8 @@ class PagarMeProvider {
             ],
         },
     };
-    constructor(apiKey, isTest = false) {
-        this.apiKey = apiKey;
+    constructor(configs) {
+        this.apiKey = configs.apiKey;
         this.baseUrl = 'https://api.pagar.me/core/v5';
     }
     generateProviderWidthdraw(body) {

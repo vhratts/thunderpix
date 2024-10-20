@@ -1,8 +1,11 @@
 import ProviderInterface from '../../interfaces/ProviderInterface';
+interface ProviderConstruct {
+    pixkey: string;
+}
 export default class PixProvider implements ProviderInterface {
     private pixkey;
     providerInfo: object;
-    constructor(pixkey: string);
+    constructor(configs: ProviderConstruct);
     generatePixPayload(valor: number, chave?: string | null, descricao?: string | null, nomeRecebedor?: string | null, cidadeRecebedor?: string | null): string;
     generatePixQRCode(chave: string, valor: number, descricao: string, nomeRecebedor: string, cidadeRecebedor: string): Promise<string>;
     private CpfOrCnpjKey;
@@ -15,3 +18,4 @@ export default class PixProvider implements ProviderInterface {
     listProviderWidthdraw(body?: object): Promise<Object>;
     searchProviderWidthdraw(body?: object): Promise<Object>;
 }
+export {};

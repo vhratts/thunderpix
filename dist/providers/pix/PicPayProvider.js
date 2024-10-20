@@ -27,9 +27,9 @@ class PicPayProvider {
             ],
         },
     };
-    constructor(token, isTest = false) {
-        this.token = token;
-        this.baseUrl = isTest
+    constructor(configs) {
+        this.token = configs.token;
+        this.baseUrl = configs.isTest
             ? 'https://appws.picpay.com/ecommerce/public/sandbox'
             : 'https://appws.picpay.com/ecommerce/public';
     }

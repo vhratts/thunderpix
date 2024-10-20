@@ -1,9 +1,13 @@
 import ProviderInterface from '../../interfaces/ProviderInterface';
+interface ProviderConstruct {
+    apiKey: string;
+    isTest: boolean | false;
+}
 export default class PagarMeProvider implements ProviderInterface {
     private baseUrl;
     private apiKey;
     providerInfo: object;
-    constructor(apiKey: string, isTest?: boolean);
+    constructor(configs: ProviderConstruct);
     generateProviderWidthdraw(body?: object): Promise<Object>;
     listProviderWidthdraw(body?: object): Promise<Object>;
     searchProviderWidthdraw(body?: object): Promise<Object>;
@@ -28,3 +32,4 @@ export default class PagarMeProvider implements ProviderInterface {
     listingPixBilling(body: PixlistingPixBilling): Promise<listingPixBillingOutput>;
     searchPixBilling(body: searchPixBilling): Promise<searchPixBillingOutput>;
 }
+export {};

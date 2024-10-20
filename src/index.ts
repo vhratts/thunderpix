@@ -5,10 +5,13 @@ import PrimepagProvider from './providers/pix/PrimepagProvider';
 import MercadoPagoProvider from './providers/pix/MercadoPagoProvider';
 import PicPayProvider from './providers/pix/PicPayProvider';
 import PagarMeProvider from './providers/pix/PagarmeProvider';
+import OpenPixProvider from './providers/pix/OpenPixProvider';
+import CieloProvider from './providers/pix/CieloProvider';
 
 export {
     PixProvider, PrimepagProvider, MercadoPagoProvider,
-    PicPayProvider, PagarMeProvider
+    PicPayProvider, PagarMeProvider, OpenPixProvider,
+    CieloProvider
 };
 
 export default class ThunderPix implements ThinderPixInterface {

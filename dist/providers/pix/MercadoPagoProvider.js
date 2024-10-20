@@ -29,15 +29,15 @@ class MercadoPagoProvider {
             ],
         },
     };
-    constructor(clientId, clientSecret, isTest = false) {
-        if (isTest) {
+    constructor(configs) {
+        if (configs.isTest) {
             this.baseUrl = 'https://api.mercadopago.com/sandbox';
         }
         else {
             this.baseUrl = 'https://api.mercadopago.com';
         }
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
+        this.clientId = configs.clientId;
+        this.clientSecret = configs.clientSecret;
         this.accessToken = null;
     }
     generateProviderWidthdraw(body) {

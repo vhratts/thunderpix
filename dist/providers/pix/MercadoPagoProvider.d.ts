@@ -1,11 +1,16 @@
 import ProviderInterface from '../../interfaces/ProviderInterface';
+interface ProviderConstruct {
+    clientId: string;
+    clientSecret: string;
+    isTest: boolean | false;
+}
 export default class MercadoPagoProvider implements ProviderInterface {
     private baseUrl;
     private clientId;
     private clientSecret;
     private accessToken;
     providerInfo: object;
-    constructor(clientId: string, clientSecret: string, isTest?: boolean);
+    constructor(configs: ProviderConstruct);
     generateProviderWidthdraw(body?: object): Promise<Object>;
     listProviderWidthdraw(body?: object): Promise<Object>;
     searchProviderWidthdraw(body?: object): Promise<Object>;
@@ -20,3 +25,4 @@ export default class MercadoPagoProvider implements ProviderInterface {
     listingPixBilling(body: PixlistingPixBilling): Promise<listingPixBillingOutput>;
     searchPixBilling(body: searchPixBilling): Promise<searchPixBillingOutput>;
 }
+export {};
