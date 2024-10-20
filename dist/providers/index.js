@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CieloProvider = exports.OpenPixProvider = exports.PicPayProvider = exports.PagarMeProvider = exports.MercadoPagoProvider = exports.PrimepagProvider = exports.PixProvider = void 0;
+exports.EfiPayProvider = exports.CieloProvider = exports.OpenPixProvider = exports.PicPayProvider = exports.PagarMeProvider = exports.MercadoPagoProvider = exports.PrimepagProvider = exports.PixProvider = void 0;
 const MercadoPagoProvider_1 = __importDefault(require("./pix/MercadoPagoProvider"));
 exports.MercadoPagoProvider = MercadoPagoProvider_1.default;
 const PagarmeProvider_1 = __importDefault(require("./pix/PagarmeProvider"));
@@ -18,3 +18,5 @@ const OpenPixProvider_1 = __importDefault(require("./pix/OpenPixProvider"));
 exports.OpenPixProvider = OpenPixProvider_1.default;
 const CieloProvider_1 = __importDefault(require("./pix/CieloProvider"));
 exports.CieloProvider = CieloProvider_1.default;
+const EfiPayProvider_1 = __importDefault(require("./pix/EfiPayProvider"));
+exports.EfiPayProvider = EfiPayProvider_1.default;
