@@ -28,8 +28,20 @@ class ThunderPix {
     async createQrCode(params) {
         return await this.provider.generatingPixBilling(params);
     }
-    async getBalance(params) { }
-    async getTransactions(params) { }
-    async getQrCode(params) { }
+    async getBalance() {
+        return this.provider.getBalance();
+    }
+    async getTransactions(params) {
+        if ((params.type = 'output')) {
+            var response = await this.provider.listingPixBilling(params?.options);
+        }
+        else {
+            var response = await this.provider.listProviderWidthdraw(params?.options);
+        }
+        return response;
+    }
+    async getQrCode(params) {
+        return await this.provider.searchPixBilling(params);
+    }
 }
 exports.default = ThunderPix;
