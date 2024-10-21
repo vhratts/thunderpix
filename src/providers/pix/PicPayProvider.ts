@@ -205,6 +205,13 @@ export default class PicPayProvider implements ProviderInterface {
         };
     }
 
+    async getBalance(): Promise<BalanceOutput> {
+        return {
+            valueCents: 0,
+            valueFloat: 0.0
+        };
+    }
+
     searchProviderWidthdraw(body?: object): Promise<Object> {
         throw new Error('Method not implemented.');
     }

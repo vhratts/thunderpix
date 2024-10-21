@@ -270,6 +270,13 @@ export default class PagarMeProvider implements ProviderInterface {
         };
     }
 
+    async getBalance(): Promise<BalanceOutput> {
+        return {
+            valueCents: 0,
+            valueFloat: 0.0
+        };
+    }
+
     async searchPixBilling(
         body: searchPixBilling,
     ): Promise<searchPixBillingOutput> {

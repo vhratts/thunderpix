@@ -36,11 +36,13 @@ export default class PrimepagProvider implements ProviderInterface {
     cadastrarPagamento(initiationType: 'dict' | 'manual', idempotentId: string, valueCents: number, receiverName: string, receiverDocument: string, pixKeyType?: string, pixKey?: string, bankIspb?: string, agency?: string, account?: string, accountType?: string, authorized?: boolean): Promise<any>;
     listarPagamentos(page?: number, registrationStartDate?: string, registrationEndDate?: string, paymentStartDate?: string, paymentEndDate?: string): Promise<any>;
     cadastrarWebhook(webhookTypeId: number, url: string, authorization?: string): Promise<any>;
+    Balance(): Promise<BalanceOutput>;
     generatingPixBilling(body: PixGeneratingPixBillingInterface): Promise<Object>;
     listingPixBilling(body: PixlistingPixBilling): Promise<listingPixBillingOutput>;
     searchPixBilling(body: searchPixBilling): Promise<searchPixBillingOutput>;
     generateProviderWidthdraw(body: PixGenerateProviderWidthdraw): Promise<generateProviderWidthdrawOutput>;
     listProviderWidthdraw(body: listProviderWidthdraw): Promise<listProviderWidthdrawOutput>;
+    getBalance(): Promise<BalanceOutput>;
     searchProviderWidthdraw(body?: object): Promise<Object>;
 }
 export {};

@@ -19,4 +19,5 @@ export default interface ProviderInterface {
     generateProviderWidthdraw(body?: object): Promise<Object>;
     listProviderWidthdraw(body?: object): Promise<Object>;
     searchProviderWidthdraw(body?: object): Promise<Object>;
+    getBalance(): Promise<Object>
 }

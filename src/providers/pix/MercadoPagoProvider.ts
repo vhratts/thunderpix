@@ -253,6 +253,13 @@ export default class MercadoPagoProvider implements ProviderInterface {
         return data;
     }
 
+    async getBalance(): Promise<BalanceOutput> {
+        return {
+            valueCents: 0,
+            valueFloat: 0.0
+        };
+    }
+
     async searchPixBilling(body: searchPixBilling): Promise<searchPixBillingOutput> {
         var data = await this.consultarPagamentoPorId(body.reference);
         return {

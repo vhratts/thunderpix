@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const crypto_1 = require("crypto");
+const PixProvider_1 = __importDefault(require("./PixProvider"));
 class CieloPixProvider {
     baseUrl;
     clientId;
@@ -218,7 +219,7 @@ class CieloPixProvider {
             referenceCode: withdrawal.correlationId,
             idempotentId: withdrawal.correlationId,
             valueCents: withdrawal.value,
-            pixKeyType: 'CPF',
+            pixKeyType: new PixProvider_1.default({ pixkey: withdrawal.pixKey }).determinePixType().type,
             pixKey: withdrawal.pixKey,
             receiverName: withdrawal.receiverName,
             receiverDocument: withdrawal.receiverDocument,
@@ -239,6 +240,12 @@ class CieloPixProvider {
             },
         };
     }
+    async getBalance() {
+        return {
+            valueCents: 0,
+            valueFloat: 0.0
+        };
+    }
     async searchProviderWidthdraw(body) {
         const response = await axios_1.default.get(`${this.baseUrl}/1/subaccounts/withdraw/${body.correlationID}`, {
             headers: this.getHeaders(),
@@ -248,7 +255,7 @@ class CieloPixProvider {
             referenceCode: data.correlationId,
             idempotentId: data.correlationId,
             valueCents: data.value,
-            pixKeyType: 'CPF',
+            pixKeyType: new PixProvider_1.default({ pixkey: data.pixKey }).determinePixType().type,
             pixKey: data.pixKey,
             receiverName: data.receiverName,
             receiverDocument: data.receiverDocument,

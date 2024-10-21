@@ -180,6 +180,12 @@ class PagarMeProvider {
             },
         };
     }
+    async getBalance() {
+        return {
+            valueCents: 0,
+            valueFloat: 0.0
+        };
+    }
     async searchPixBilling(body) {
         var data = await this.consultarTransacaoPorId(body.reference);
         return {

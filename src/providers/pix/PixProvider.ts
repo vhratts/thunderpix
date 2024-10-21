@@ -8,6 +8,11 @@ interface ProviderConstruct {
     pixkey: string
 }
 
+interface pixTypeOutput {
+    key: string,
+    type: string
+}
+
 export default class PixProvider implements ProviderInterface {
     private pixkey: string;
     public providerInfo = {
@@ -134,6 +139,30 @@ export default class PixProvider implements ProviderInterface {
         return isEmail || isTelefone || isAleatoria || isUuid || isCpfCnpj;
     }
 
+    public determinePixType(chave?: any): pixTypeOutput {
+        if(!chave){
+            chave = this.pixkey;
+        }
+        const isEmail = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(chave);
+        const isTelefone = /^\+\d{1,3}\d{9,13}$/.test(chave); // Exemplo: +5511999999999
+        const isAleatoria = /^[a-zA-Z0-9]{32}$/.test(chave); // Chave aleatória tem 32 caracteres
+        const isUuid =
+            /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
+                chave,
+            ); // Formato UUID
+        const isCpfCnpj = this.CpfOrCnpjKey(chave); // Validação de CPF ou CNPJ
+        return {
+            key: chave,
+            type: (
+                isEmail ? 'email' :
+                isTelefone ? 'phone' :
+                isAleatoria ? 'token' :
+                isUuid ? 'random' :
+                isCpfCnpj ? 'cpf' : 'cnpj'
+            )
+        };
+    }
+
     // Função que gera o checksum CRC16 (necessário para o payload Pix)
     private generateCRC16(payload: string): string {
         let crc = 0xffff;
@@ -216,6 +245,13 @@ export default class PixProvider implements ProviderInterface {
 
     listProviderWidthdraw(body?: object): Promise<Object> {
         throw new Error('Method not implemented.');
+    }
+
+    async getBalance(): Promise<BalanceOutput> {
+        return {
+            valueCents: 0,
+            valueFloat: 0.0
+        };
     }
     
     searchProviderWidthdraw(body?: object): Promise<Object> {

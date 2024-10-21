@@ -2,6 +2,10 @@ import ProviderInterface from '../../interfaces/ProviderInterface';
 interface ProviderConstruct {
     pixkey: string;
 }
+interface pixTypeOutput {
+    key: string;
+    type: string;
+}
 export default class PixProvider implements ProviderInterface {
     private pixkey;
     providerInfo: {
@@ -26,12 +30,14 @@ export default class PixProvider implements ProviderInterface {
     generatePixQRCode(chave: string, valor: number, descricao: string, nomeRecebedor: string, cidadeRecebedor: string): Promise<string>;
     private CpfOrCnpjKey;
     private validateChavePix;
+    determinePixType(chave?: any): pixTypeOutput;
     private generateCRC16;
     generatingPixBilling(body: PixGeneratingPixBillingInterface): Promise<Object>;
     listingPixBilling(body?: object): Promise<Object>;
     searchPixBilling(body?: object): Promise<Object>;
     generateProviderWidthdraw(body?: object): Promise<Object>;
     listProviderWidthdraw(body?: object): Promise<Object>;
+    getBalance(): Promise<BalanceOutput>;
     searchProviderWidthdraw(body?: object): Promise<Object>;
 }
 export {};

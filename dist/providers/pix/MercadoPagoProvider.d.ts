@@ -39,6 +39,7 @@ export default class MercadoPagoProvider implements ProviderInterface {
     cadastrarWebhook(url: string, event: string): Promise<any>;
     generatingPixBilling(body: PixGeneratingPixBillingInterface): Promise<Object>;
     listingPixBilling(body: PixlistingPixBilling): Promise<listingPixBillingOutput>;
+    getBalance(): Promise<BalanceOutput>;
     searchPixBilling(body: searchPixBilling): Promise<searchPixBillingOutput>;
 }
 export {};

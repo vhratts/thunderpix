@@ -240,6 +240,12 @@ class EfiPayProvider {
             },
         };
     }
+    async getBalance() {
+        return {
+            valueCents: 0,
+            valueFloat: 0.0
+        };
+    }
     async searchProviderWidthdraw(body) {
         const response = await axios_1.default.get(`${this.baseUrl}/v2/withdrawals/${body.correlationId}`, {
             headers: this.getHeaders(),

@@ -143,6 +143,12 @@ class PicPayProvider {
             },
         };
     }
+    async getBalance() {
+        return {
+            valueCents: 0,
+            valueFloat: 0.0
+        };
+    }
     searchProviderWidthdraw(body) {
         throw new Error('Method not implemented.');
     }

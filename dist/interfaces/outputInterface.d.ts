@@ -73,3 +73,7 @@ interface listProviderWidthdrawOutput {
         total_value_cents: number;
     };
 }
+interface BalanceOutput {
+    valueCents: number | string;
+    valueFloat: number | string;
+}

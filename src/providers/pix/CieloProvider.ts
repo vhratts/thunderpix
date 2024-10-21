@@ -1,6 +1,7 @@
 import axios from 'axios';
 import ProviderInterface from '../../interfaces/ProviderInterface';
 import { randomUUID } from 'crypto';
+import PixProvider from './PixProvider';
 
 interface ProviderConstruct {
     clientId: string,
@@ -279,7 +280,7 @@ export default class CieloPixProvider implements ProviderInterface {
             referenceCode: withdrawal.correlationId,
             idempotentId: withdrawal.correlationId,
             valueCents: withdrawal.value,
-            pixKeyType: 'CPF', // Exemplo: CPF/CNPJ
+            pixKeyType: new PixProvider({pixkey: withdrawal.pixKey}).determinePixType().type, // Exemplo: CPF/CNPJ
             pixKey: withdrawal.pixKey,
             receiverName: withdrawal.receiverName,
             receiverDocument: withdrawal.receiverDocument,
@@ -302,6 +303,13 @@ export default class CieloPixProvider implements ProviderInterface {
         };
     }
 
+    async getBalance(): Promise<BalanceOutput> {
+        return {
+            valueCents: 0,
+            valueFloat: 0.0
+        };
+    }
+
     // Consultar saque por referência
     async searchProviderWidthdraw(body: { correlationID: string }): Promise<Object> {
         const response = await axios.get(`${this.baseUrl}/1/subaccounts/withdraw/${body.correlationID}`, {
@@ -314,7 +322,7 @@ export default class CieloPixProvider implements ProviderInterface {
             referenceCode: data.correlationId,
             idempotentId: data.correlationId,
             valueCents: data.value,
-            pixKeyType: 'CPF',  // Exemplo
+            pixKeyType: new PixProvider({pixkey: data.pixKey}).determinePixType().type,  // Exemplo
             pixKey: data.pixKey,
             receiverName: data.receiverName,
             receiverDocument: data.receiverDocument,

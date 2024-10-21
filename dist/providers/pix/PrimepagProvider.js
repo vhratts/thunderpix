@@ -143,6 +143,15 @@ class PrimepagProvider {
         });
         return response.data;
     }
+    async Balance() {
+        const response = await axios_1.default.get(`${this.baseUrl}/v1/account/balance`, {
+            headers: this.getHeaders(),
+        });
+        return {
+            valueCents: response.data.account.value_cents,
+            valueFloat: (response.data.account.value_cents / 100)
+        };
+    }
     async generatingPixBilling(body) {
         var valueCents = Number.isInteger(body.valueCents)
             ? body.valueCents
@@ -231,6 +240,9 @@ class PrimepagProvider {
             };
         });
         return data;
+    }
+    async getBalance() {
+        return await this.Balance();
     }
     async searchProviderWidthdraw(body) {
         return {

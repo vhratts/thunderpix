@@ -237,6 +237,20 @@ export default class PrimepagProvider implements ProviderInterface {
         return response.data;
     }
 
+    async Balance(): Promise<BalanceOutput> {
+        const response = await axios.get(
+            `${this.baseUrl}/v1/account/balance`,
+            {
+                headers: this.getHeaders(),
+            },
+        );
+
+        return {
+            valueCents: response.data.account.value_cents,
+            valueFloat: (response.data.account.value_cents / 100)
+        };
+    }
+
     async generatingPixBilling(
         body: PixGeneratingPixBillingInterface,
     ): Promise<Object> {
@@ -373,6 +387,10 @@ export default class PrimepagProvider implements ProviderInterface {
         });
 
         return data;
+    }
+
+    async getBalance(): Promise<BalanceOutput> {
+        return await this.Balance();
     }
 
     async searchProviderWidthdraw(body?: object): Promise<Object> {

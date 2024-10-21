@@ -40,6 +40,7 @@ export default class OpenPixProvider implements ProviderInterface {
     searchPixBilling(body: searchPixBilling): Promise<searchPixBillingOutput>;
     generateProviderWidthdraw(body: PixGenerateProviderWidthdraw): Promise<generateProviderWidthdrawOutput>;
     listProviderWidthdraw(body: listProviderWidthdraw): Promise<listProviderWidthdrawOutput>;
+    getBalance(): Promise<BalanceOutput>;
     searchProviderWidthdraw(body: {
         correlationID: string;
     }): Promise<Object>;

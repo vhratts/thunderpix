@@ -189,6 +189,12 @@ class OpenPixProvider {
             },
         };
     }
+    async getBalance() {
+        return {
+            valueCents: 0,
+            valueFloat: 0.0
+        };
+    }
     async searchProviderWidthdraw(body) {
         const response = await axios_1.default.get(`${this.baseUrl}/api/v1/subaccount/withdraw/${body.correlationID}`, {
             headers: this.getHeaders(),

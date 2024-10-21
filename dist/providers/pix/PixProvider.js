@@ -87,6 +87,24 @@ class PixProvider {
         const isCpfCnpj = this.CpfOrCnpjKey(chave);
         return isEmail || isTelefone || isAleatoria || isUuid || isCpfCnpj;
     }
+    determinePixType(chave) {
+        if (!chave) {
+            chave = this.pixkey;
+        }
+        const isEmail = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(chave);
+        const isTelefone = /^\+\d{1,3}\d{9,13}$/.test(chave);
+        const isAleatoria = /^[a-zA-Z0-9]{32}$/.test(chave);
+        const isUuid = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(chave);
+        const isCpfCnpj = this.CpfOrCnpjKey(chave);
+        return {
+            key: chave,
+            type: (isEmail ? 'email' :
+                isTelefone ? 'phone' :
+                    isAleatoria ? 'token' :
+                        isUuid ? 'random' :
+                            isCpfCnpj ? 'cpf' : 'cnpj')
+        };
+    }
     generateCRC16(payload) {
         let crc = 0xffff;
         for (let i = 0; i < payload.length; i++) {
@@ -144,6 +162,12 @@ class PixProvider {
     }
     listProviderWidthdraw(body) {
         throw new Error('Method not implemented.');
+    }
+    async getBalance() {
+        return {
+            valueCents: 0,
+            valueFloat: 0.0
+        };
     }
     searchProviderWidthdraw(body) {
         throw new Error('Method not implemented.');

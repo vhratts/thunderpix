@@ -45,6 +45,7 @@ export default class EfiPayProvider implements ProviderInterface {
     listingPixBilling(body: PixlistingPixBilling): Promise<listingPixBillingOutput>;
     generateProviderWidthdraw(body: PixGenerateProviderWidthdraw): Promise<generateProviderWidthdrawOutput>;
     listProviderWidthdraw(body: listProviderWidthdraw): Promise<listProviderWidthdrawOutput>;
+    getBalance(): Promise<BalanceOutput>;
     searchProviderWidthdraw(body: {
         correlationId: string;
     }): Promise<Object>;

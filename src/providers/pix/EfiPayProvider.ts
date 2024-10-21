@@ -281,6 +281,13 @@ export default class EfiPayProvider implements ProviderInterface {
         };
     }
 
+    async getBalance(): Promise<BalanceOutput> {
+        return {
+            valueCents: 0,
+            valueFloat: 0.0
+        };
+    }
+
     // Consultar saque por referência
     async searchProviderWidthdraw(body: { correlationId: string }): Promise<Object> {
         const response = await axios.get(`${this.baseUrl}/v2/withdrawals/${body.correlationId}`, {

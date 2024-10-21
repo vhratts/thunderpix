@@ -172,6 +172,12 @@ class MercadoPagoProvider {
         });
         return data;
     }
+    async getBalance() {
+        return {
+            valueCents: 0,
+            valueFloat: 0.0
+        };
+    }
     async searchPixBilling(body) {
         var data = await this.consultarPagamentoPorId(body.reference);
         return {

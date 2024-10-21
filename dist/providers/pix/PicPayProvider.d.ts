@@ -37,6 +37,7 @@ export default class PicPayProvider implements ProviderInterface {
     listingPixBilling(body?: object): Promise<Object>;
     generateProviderWidthdraw(body: PixGenerateProviderWidthdraw): Promise<generateProviderWidthdrawOutput>;
     listProviderWidthdraw(body: listProviderWidthdraw): Promise<listProviderWidthdrawOutput>;
+    getBalance(): Promise<BalanceOutput>;
     searchProviderWidthdraw(body?: object): Promise<Object>;
 }
 export {};
