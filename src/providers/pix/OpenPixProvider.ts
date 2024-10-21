@@ -10,14 +10,14 @@ interface ProviderConstruct {
 export default class OpenPixProvider implements ProviderInterface {
     private baseUrl: string;
     private apiKey: string;
-    public providerInfo: object = {
+    public providerInfo = {
         name: 'OpenPix',
         description: 'Plataforma de pagamentos instantâneos com Pix.',
         documentation: 'https://developers.openpix.com.br',
         isOnline: true,
         vendor: {
             name: 'OpenPix',
-            shortname: 'openpix',
+            shotname: 'openpix',
             url: 'https://openpix.com.br',
             api: 'https://api.openpix.com.br',
             versions: [

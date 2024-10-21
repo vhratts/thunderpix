@@ -15,7 +15,7 @@ class OpenPixProvider {
         isOnline: true,
         vendor: {
             name: 'OpenPix',
-            shortname: 'openpix',
+            shotname: 'openpix',
             url: 'https://openpix.com.br',
             api: 'https://api.openpix.com.br',
             versions: [

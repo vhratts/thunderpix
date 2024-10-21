@@ -6,7 +6,23 @@ interface ProviderConstruct {
 export default class PicPayProvider implements ProviderInterface {
     private baseUrl;
     private token;
-    providerInfo: object;
+    providerInfo: {
+        name: string;
+        description: string;
+        documentation: string;
+        isOnline: boolean;
+        vendor: {
+            name: string;
+            shotname: string;
+            url: string;
+            api: string;
+            versions: {
+                name: string;
+                version: string;
+                path: string;
+            }[];
+        };
+    };
     constructor(configs: ProviderConstruct);
     private getHeaders;
     gerarCobranca(referenceId: string, value: number, callbackUrl: string, returnUrl: string, buyer: {

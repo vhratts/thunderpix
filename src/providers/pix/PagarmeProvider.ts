@@ -11,7 +11,7 @@ export default class PagarMeProvider implements ProviderInterface {
     private baseUrl: string;
     private apiKey: string;
     // private accessToken: string | null;
-    public providerInfo: object = {
+    public providerInfo = {
         name: 'Pagar.me',
         description: 'A plataforma completa para aceitar pagamentos online.',
         documentation: 'https://docs.pagar.me',

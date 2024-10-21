@@ -10,7 +10,7 @@ interface ProviderConstruct {
 
 export default class PixProvider implements ProviderInterface {
     private pixkey: string;
-    public providerInfo: object = {
+    public providerInfo = {
         name: 'Pix',
         description: 'Provedor padrão de qrcode-pix',
         documentation: 'https://bacen.github.io/pix-api',

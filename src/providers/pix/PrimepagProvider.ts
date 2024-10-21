@@ -13,7 +13,7 @@ export default class PrimepagProvider implements ProviderInterface {
     private clientId: string;
     private clientSecret: string;
     private accessToken: string | null;
-    public providerInfo: object = {
+    public providerInfo = {
         name: 'Primepag',
         description: 'O Banco Digital Completo para Suas Transações Financeiras. Simples, Seguro e Inovador.',
         documentation: 'https://primepag.com.br/desenvolvedores',

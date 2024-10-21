@@ -17,14 +17,14 @@ export default class EfiPayProvider implements ProviderInterface {
     private certificatePath: string;
     private accessToken: string | null;
 
-    public providerInfo: object = {
+    public providerInfo = {
         name: 'EfiPay',
         description: 'Plataforma de pagamentos Pix via API.',
         documentation: 'https://dev.efipay.com.br/docs/api-pix/',
         isOnline: true,
         vendor: {
             name: 'EfiPay',
-            shortname: 'efipay',
+            shotname: 'efipay',
             url: 'https://www.efipay.com.br',
             api: 'https://api.efipay.com.br',
             versions: [

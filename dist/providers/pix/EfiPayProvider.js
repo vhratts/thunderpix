@@ -42,7 +42,7 @@ class EfiPayProvider {
         isOnline: true,
         vendor: {
             name: 'EfiPay',
-            shortname: 'efipay',
+            shotname: 'efipay',
             url: 'https://www.efipay.com.br',
             api: 'https://api.efipay.com.br',
             versions: [

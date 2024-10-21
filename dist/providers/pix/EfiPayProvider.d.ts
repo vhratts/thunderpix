@@ -11,7 +11,23 @@ export default class EfiPayProvider implements ProviderInterface {
     private clientSecret;
     private certificatePath;
     private accessToken;
-    providerInfo: object;
+    providerInfo: {
+        name: string;
+        description: string;
+        documentation: string;
+        isOnline: boolean;
+        vendor: {
+            name: string;
+            shotname: string;
+            url: string;
+            api: string;
+            versions: {
+                name: string;
+                version: string;
+                path: string;
+            }[];
+        };
+    };
     constructor(configs: ProviderConstruct);
     searchPixBilling(body?: object): Promise<Object>;
     generateToken(): Promise<void>;

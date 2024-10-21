@@ -10,7 +10,7 @@ interface ProviderConstruct {
 export default class PicPayProvider implements ProviderInterface {
     private baseUrl: string;
     private token: string;
-    public providerInfo: object = {
+    public providerInfo = {
         name: 'PicPay',
         description:
             'A solução completa para pagamentos instantâneos e transferências.',

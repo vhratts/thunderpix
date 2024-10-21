@@ -4,7 +4,23 @@ interface ProviderConstruct {
 }
 export default class PixProvider implements ProviderInterface {
     private pixkey;
-    providerInfo: object;
+    providerInfo: {
+        name: string;
+        description: string;
+        documentation: string;
+        isOnline: boolean;
+        vendor: {
+            name: string;
+            shotname: string;
+            url: string;
+            api: string;
+            versions: {
+                name: string;
+                version: string;
+                path: string;
+            }[];
+        };
+    };
     constructor(configs: ProviderConstruct);
     generatePixPayload(valor: number, chave?: string | null, descricao?: string | null, nomeRecebedor?: string | null, cidadeRecebedor?: string | null): string;
     generatePixQRCode(chave: string, valor: number, descricao: string, nomeRecebedor: string, cidadeRecebedor: string): Promise<string>;

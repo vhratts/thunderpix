@@ -25,7 +25,7 @@ class CieloPixProvider {
                     name: 'br.com.cielo.api-v1',
                     version: '1.0.0',
                     path: '/',
-                }
+                },
             ],
         },
     };

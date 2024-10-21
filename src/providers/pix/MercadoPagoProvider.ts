@@ -13,7 +13,7 @@ export default class MercadoPagoProvider implements ProviderInterface {
     private clientId: string;
     private clientSecret: string;
     private accessToken: string | null;
-    public providerInfo: object = {
+    public providerInfo = {
         name: 'Mercado Pago',
         description: 'A solução completa de pagamentos para o seu negócio.',
         documentation: 'https://www.mercadopago.com.br/developers/pt',

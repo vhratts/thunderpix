@@ -13,7 +13,7 @@ export default class CieloPixProvider implements ProviderInterface {
     private clientId: string;
     private clientSecret: string;
     private accessToken: string | null;
-    public providerInfo: object = {
+    public providerInfo = {
         name: 'Cielo',
         description: 'A solução completa de PIX para o seu negócio.',
         documentation: 'https://developercielo.github.io/manual/cielo-ecommerce',
@@ -28,7 +28,7 @@ export default class CieloPixProvider implements ProviderInterface {
                     name: 'br.com.cielo.api-v1',
                     version: '1.0.0',
                     path: '/',
-                }
+                },
             ],
         },
     };
