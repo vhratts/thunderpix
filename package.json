@@ -1,6 +1,6 @@
 {
   "name": "thunderpix",
-  "version": "1.1.5",
+  "version": "1.1.7",
   "description": "Biblioteca javascript de padronização de gateways de pagamentos PIX",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

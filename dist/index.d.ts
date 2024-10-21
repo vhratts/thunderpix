@@ -12,6 +12,7 @@ export { PixProvider, PrimepagProvider, MercadoPagoProvider, PicPayProvider, Pag
 export default class ThunderPix implements ThinderPixInterface {
     private provider;
     constructor(provider: ProviderInterface);
+    getTransaction(params?: {}): Promise<Object> | Object;
     createQrCode(params?: {
         valueCents: number;
         expires: number;
@@ -27,5 +28,19 @@ export default class ThunderPix implements ThinderPixInterface {
     }): Promise<Object>;
     getQrCode(params: {
         reference: string;
+    }): Promise<Object>;
+    createTransaction(params: {
+        initiationType: 'dict';
+        idempotentId: string;
+        valueCents: number;
+        receiverName: string;
+        receiverDocument: string;
+        pixKeyType?: string;
+        pixKey?: string;
+        bankIspb?: string;
+        agency?: string;
+        account?: string;
+        accountType?: string;
+        authorized: true;
     }): Promise<Object>;
 }

@@ -177,6 +177,7 @@ class PrimepagProvider {
         };
     }
     async listingPixBilling(body) {
+        await this.generateToken();
         var data = await this.listarQRCodes(body.page ?? 1, body.registrationDateStart ?? new Date().toISOString(), body.registrationDateEnd ?? new Date().toISOString());
         data = data.qrcodes.map((mp) => {
             return {
@@ -196,6 +197,7 @@ class PrimepagProvider {
         return data;
     }
     async searchPixBilling(body) {
+        await this.generateToken();
         var data = await this.consultarQrCodePorReferencia(body.reference);
         var qrcode = {
             referenceCode: data.qrcode.reference_code,
@@ -217,10 +219,12 @@ class PrimepagProvider {
         return qrcode;
     }
     async generateProviderWidthdraw(body) {
+        await this.generateToken();
         var data = await this.cadastrarPagamento(body.initiationType, body.idempotentId, body.valueCents, body.receiverName, body.receiverDocument, body.pixKeyType, body.pixKey, body.bankIspb, body.agency, body.account, body.accountType, body.authorized ?? true);
         return data.payment;
     }
     async listProviderWidthdraw(body) {
+        await this.generateToken();
         var data = await this.listarPagamentos(body.page, body.registrationStartDate, body.registrationEndDate, body.paymentStartDate, body.paymentEndDate);
         data = data.payments.map((mp) => {
             return {
@@ -242,9 +246,11 @@ class PrimepagProvider {
         return data;
     }
     async getBalance() {
+        await this.generateToken();
         return await this.Balance();
     }
     async searchProviderWidthdraw(body) {
+        await this.generateToken();
         return {
             search: []
         };

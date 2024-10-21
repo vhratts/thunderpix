@@ -25,6 +25,9 @@ class ThunderPix {
     constructor(provider) {
         this.provider = provider;
     }
+    getTransaction(params) {
+        throw new Error('Method not implemented.');
+    }
     async createQrCode(params) {
         return await this.provider.generatingPixBilling(params);
     }
@@ -42,6 +45,9 @@ class ThunderPix {
     }
     async getQrCode(params) {
         return await this.provider.searchPixBilling(params);
+    }
+    async createTransaction(params) {
+        return await this.provider.generateProviderWidthdraw(params);
     }
 }
 exports.default = ThunderPix;

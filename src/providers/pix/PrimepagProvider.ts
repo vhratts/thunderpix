@@ -289,6 +289,7 @@ export default class PrimepagProvider implements ProviderInterface {
     async listingPixBilling(
         body: PixlistingPixBilling,
     ): Promise<listingPixBillingOutput> {
+        await this.generateToken();
         var data = await this.listarQRCodes(
             body.page ?? 1,
             body.registrationDateStart ?? new Date().toISOString(),
@@ -317,6 +318,7 @@ export default class PrimepagProvider implements ProviderInterface {
     async searchPixBilling(
         body: searchPixBilling,
     ): Promise<searchPixBillingOutput> {
+        await this.generateToken();
         var data = await this.consultarQrCodePorReferencia(body.reference);
         var qrcode = {
             referenceCode: data.qrcode.reference_code,
@@ -342,6 +344,7 @@ export default class PrimepagProvider implements ProviderInterface {
     async generateProviderWidthdraw(
         body: PixGenerateProviderWidthdraw,
     ): Promise<generateProviderWidthdrawOutput> {
+        await this.generateToken();
         var data = await this.cadastrarPagamento(
             body.initiationType,
             body.idempotentId,
@@ -360,6 +363,7 @@ export default class PrimepagProvider implements ProviderInterface {
         return data.payment;
     }
     async listProviderWidthdraw(body: listProviderWidthdraw): Promise<listProviderWidthdrawOutput> {
+        await this.generateToken();
         var data = await this.listarPagamentos(
             body.page,
             body.registrationStartDate,
@@ -390,10 +394,12 @@ export default class PrimepagProvider implements ProviderInterface {
     }
 
     async getBalance(): Promise<BalanceOutput> {
+        await this.generateToken();
         return await this.Balance();
     }
 
     async searchProviderWidthdraw(body?: object): Promise<Object> {
+        await this.generateToken();
         return {
             search: []
         };

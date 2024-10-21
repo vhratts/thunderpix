@@ -25,6 +25,9 @@ export default class ThunderPix implements ThinderPixInterface {
     constructor(provider: ProviderInterface) {
         this.provider = provider;
     }
+    getTransaction(params?: {}): Promise<Object> | Object {
+        throw new Error('Method not implemented.');
+    }
 
     async createQrCode(params?: { valueCents: number; expires: number }) {
         return await this.provider.generatingPixBilling(params);
@@ -55,9 +58,24 @@ export default class ThunderPix implements ThinderPixInterface {
         return response;
     }
 
-    async getQrCode(params: {
-        reference: string
-    }) {
+    async getQrCode(params: { reference: string }) {
         return await this.provider.searchPixBilling(params);
+    }
+
+    async createTransaction(params: {
+        initiationType: 'dict';
+        idempotentId: string;
+        valueCents: number;
+        receiverName: string;
+        receiverDocument: string;
+        pixKeyType?: string;
+        pixKey?: string;
+        bankIspb?: string;
+        agency?: string;
+        account?: string;
+        accountType?: string;
+        authorized: true;
+    }): Promise<Object> {
+        return await this.provider.generateProviderWidthdraw(params);
     }
 }
