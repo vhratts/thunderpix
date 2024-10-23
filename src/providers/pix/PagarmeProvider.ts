@@ -3,8 +3,8 @@ import ProviderInterface from '../../interfaces/ProviderInterface';
 import { randomUUID } from 'crypto';
 
 interface ProviderConstruct {
-    apiKey: string,
-    isTest: boolean | false
+    apiKey: string;
+    isTest: boolean | false;
 }
 
 export default class PagarMeProvider implements ProviderInterface {
@@ -54,15 +54,6 @@ export default class PagarMeProvider implements ProviderInterface {
     constructor(configs: ProviderConstruct) {
         this.apiKey = configs.apiKey;
         this.baseUrl = 'https://api.pagar.me/core/v5';
-    }
-    generateProviderWidthdraw(body?: object): Promise<Object> {
-        throw new Error('Method not implemented.');
-    }
-    listProviderWidthdraw(body?: object): Promise<Object> {
-        throw new Error('Method not implemented.');
-    }
-    searchProviderWidthdraw(body?: object): Promise<Object> {
-        throw new Error('Method not implemented.');
     }
 
     // Função auxiliar para configurar os headers com token de autorização
@@ -273,7 +264,7 @@ export default class PagarMeProvider implements ProviderInterface {
     async getBalance(): Promise<BalanceOutput> {
         return {
             valueCents: 0,
-            valueFloat: 0.0
+            valueFloat: 0.0,
         };
     }
 
@@ -289,4 +280,106 @@ export default class PagarMeProvider implements ProviderInterface {
             paymentDate: data.date_updated,
         };
     }
+
+    // Função responsavel por gerar uma retirada (saque)
+    async generateProviderWidthdraw(body: PixGenerateProviderWidthdraw): Promise<generateProviderWidthdrawOutput> {
+        const payload = {
+            api_key: this.apiKey,
+            amount: body.valueCents,
+            bank_account: {
+                bank_code: body.bankIspb,
+                agencia: body.agency,
+                conta: body.account,
+                conta_dv: '0', // Considerando um exemplo básico
+                type: body.accountType === 'checking' ? 'conta_corrente' : 'conta_poupanca',
+                document_number: body.receiverDocument,
+                legal_name: body.receiverName,
+            },
+        };
+    
+        const response = await axios.post(`${this.baseUrl}/transfers`, payload, {
+            headers: this.getHeaders(),
+        });
+    
+        return {
+            reference_code: response.data.id,
+            idempotent_id: body.idempotentId,
+            value_cents: body.valueCents,
+            pix_key_type: body.pixKeyType || '',
+            pix_key: body.pixKey || '',
+            receiver_name: body.receiverName,
+            receiver_document: body.receiverDocument,
+            status: response.data.status,
+        };
+    }
+    
+
+    // Função responsavel por listar todas as retiradas
+    async listProviderWidthdraw(body: listProviderWidthdraw): Promise<listProviderWidthdrawOutput> {
+        const params = {
+            api_key: this.apiKey,
+            page: body.page || 1,
+            count: 20,
+            date_created_since: body.registrationStartDate,
+            date_created_until: body.registrationEndDate,
+        };
+    
+        const response = await axios.get(`${this.baseUrl}/transfers`, {
+            headers: this.getHeaders(),
+            params,
+        });
+    
+        const withdrawals = response.data.map((transfer: any) => ({
+            referenceCode: transfer.id,
+            idempotentId: transfer.correlation_id || '',
+            valueCents: transfer.amount,
+            pixKeyType: 'N/A',
+            pixKey: 'N/A',
+            receiverName: transfer.recipient_name,
+            receiverDocument: transfer.recipient_document_number,
+            status: transfer.status,
+            registrationDate: transfer.date_created,
+            paymentDate: transfer.date_updated,
+            cancellationDate: transfer.date_canceled || null,
+            cancellationReason: transfer.reason || null,
+            endToEnd: 'N/A',
+        }));
+    
+        return {
+            payments: withdrawals,
+            meta: {
+                current_page: body.page || 1,
+                total_pages: Math.ceil(response.data.length / 20),
+                total_items_amount: response.data.length,
+                total_value_cents: withdrawals.reduce((acc: any, withdrawal: any) => acc + withdrawal.valueCents, 0),
+            },
+        };
+    }
+    
+
+    // Função responsavel por obter um saque a partir da referência
+    async searchProviderWidthdraw(body: { correlationId: string }): Promise<Object> {
+        const response = await axios.get(`${this.baseUrl}/transfers/${body.correlationId}`, {
+            headers: this.getHeaders(),
+            params: { api_key: this.apiKey },
+        });
+    
+        const transfer = response.data;
+    
+        return {
+            referenceCode: transfer.id,
+            idempotentId: transfer.correlation_id || '',
+            valueCents: transfer.amount,
+            pixKeyType: 'N/A',
+            pixKey: 'N/A',
+            receiverName: transfer.recipient_name,
+            receiverDocument: transfer.recipient_document_number,
+            status: transfer.status,
+            registrationDate: transfer.date_created,
+            paymentDate: transfer.date_updated,
+            cancellationDate: transfer.date_canceled || null,
+            endToEnd: 'N/A',
+        };
+    }
+    
 }

@@ -9,6 +9,7 @@ import ThunderPix, { PixProvider, PrimepagProvider } from './index';
   var provider = new PrimepagProvider({
     clientId: 'ac536f63-0d9b-4897-9e33-f1cf67adaac0', clientSecret: '38da4a8d-b99d-4d9a-8b85-0d66ba6789c0', isTest: true
   });
+  
   var thunder = new ThunderPix(provider);
 
   var qrcode = await thunder.createQrCode({

@@ -1,10 +1,11 @@
 import axios from 'axios';
 import ProviderInterface from '../../interfaces/ProviderInterface';
 import { randomUUID } from 'crypto';
+import PixProvider from './PixProvider';
 
 interface ProviderConstruct {
-    apiKey: string,
-    isTest: boolean | false
+    apiKey: string;
+    isTest: boolean | false;
 }
 
 export default class OpenPixProvider implements ProviderInterface {
@@ -25,13 +26,15 @@ export default class OpenPixProvider implements ProviderInterface {
                     name: 'br.com.openpix.api-v1',
                     version: '1.0.0',
                     path: '/',
-                }
+                },
             ],
         },
     };
 
     constructor(configs: ProviderConstruct) {
-        this.baseUrl = configs.isTest ? 'https://sandbox.openpix.com.br' : 'https://api.openpix.com.br';
+        this.baseUrl = configs.isTest
+            ? 'https://sandbox.openpix.com.br'
+            : 'https://api.openpix.com.br';
         this.apiKey = configs.apiKey;
     }
 
@@ -48,12 +51,12 @@ export default class OpenPixProvider implements ProviderInterface {
         valueCents: number,
         description: string,
         customer: {
-            name: string,
-            document: string,
-            email: string,
-            phone: string,
-            city: string
-        }
+            name: string;
+            document: string;
+            email: string;
+            phone: string;
+            city: string;
+        },
     ) {
         const payload = {
             correlationID: randomUUID(),
@@ -67,9 +70,13 @@ export default class OpenPixProvider implements ProviderInterface {
             },
         };
 
-        const response = await axios.post(`${this.baseUrl}/api/v1/charge`, payload, {
-            headers: this.getHeaders(),
-        });
+        const response = await axios.post(
+            `${this.baseUrl}/api/v1/charge`,
+            payload,
+            {
+                headers: this.getHeaders(),
+            },
+        );
 
         return response.data;
     }
@@ -78,7 +85,7 @@ export default class OpenPixProvider implements ProviderInterface {
     async listarCobrancas(
         page: number = 1,
         registrationStartDate?: string,
-        registrationEndDate?: string
+        registrationEndDate?: string,
     ) {
         const params = {
             page,
@@ -96,24 +103,33 @@ export default class OpenPixProvider implements ProviderInterface {
 
     // Consultar cobrança Pix por ID
     async consultarCobrancaPorID(correlationID: string) {
-        const response = await axios.get(`${this.baseUrl}/api/v1/charge/${correlationID}`, {
-            headers: this.getHeaders(),
-        });
+        const response = await axios.get(
+            `${this.baseUrl}/api/v1/charge/${correlationID}`,
+            {
+                headers: this.getHeaders(),
+            },
+        );
 
         return response.data;
     }
 
     // Estornar uma cobrança Pix
     async estornarCobranca(correlationID: string) {
-        const response = await axios.post(`${this.baseUrl}/api/v1/charge/${correlationID}/refund`, {}, {
-            headers: this.getHeaders(),
-        });
+        const response = await axios.post(
+            `${this.baseUrl}/api/v1/charge/${correlationID}/refund`,
+            {},
+            {
+                headers: this.getHeaders(),
+            },
+        );
 
         return response.data;
     }
 
     // Geração de cobrança Pix com retorno formatado
-    async generatingPixBilling(body: PixGeneratingPixBillingInterface): Promise<Object> {
+    async generatingPixBilling(
+        body: PixGeneratingPixBillingInterface,
+    ): Promise<Object> {
         const valueCents = Math.round(body.valueCents);
 
         const data = await this.gerarQrCodePix(valueCents, body.description, {
@@ -125,8 +141,8 @@ export default class OpenPixProvider implements ProviderInterface {
         });
 
         return {
-            qrcode: data.charge.qrCodeImage,  // QR Code gerado em base64
-            pixkey: data.charge.brCode,  // Chave Copia-e-Cola
+            qrcode: data.charge.qrCodeImage, // QR Code gerado em base64
+            pixkey: data.charge.brCode, // Chave Copia-e-Cola
             value: {
                 original: body.valueCents,
                 cents: valueCents,
@@ -138,16 +154,18 @@ export default class OpenPixProvider implements ProviderInterface {
                 dateTime: new Date(body.expires * 1000).toLocaleString('pt-BR'),
                 iso: new Date(body.expires * 1000).toISOString(),
             },
-            code: data.charge.correlationID,  // Código de transação
+            code: data.charge.correlationID, // Código de transação
         };
     }
 
     // Função para listar cobranças Pix
-    async listingPixBilling(body: PixlistingPixBilling): Promise<listingPixBillingOutput> {
+    async listingPixBilling(
+        body: PixlistingPixBilling,
+    ): Promise<listingPixBillingOutput> {
         const data = await this.listarCobrancas(
             body.page ?? 1,
             body.registrationDateStart ?? new Date().toISOString(),
-            body.registrationDateEnd ?? new Date().toISOString()
+            body.registrationDateEnd ?? new Date().toISOString(),
         );
 
         const cobrancas = data.charges.map((mp: any) => ({
@@ -170,12 +188,17 @@ export default class OpenPixProvider implements ProviderInterface {
                 current_page: body.page || 1,
                 total_pages: Math.ceil(data.charges.length / 20),
                 total_items_amount: data.charges.length,
-                total_value_cents: cobrancas.reduce((acc: number, curr: any) => acc + curr.valueCents, 0),
+                total_value_cents: cobrancas.reduce(
+                    (acc: number, curr: any) => acc + curr.valueCents,
+                    0,
+                ),
             },
         };
     }
 
-    async searchPixBilling(body: searchPixBilling): Promise<searchPixBillingOutput> {
+    async searchPixBilling(
+        body: searchPixBilling,
+    ): Promise<searchPixBillingOutput> {
         const data = await this.consultarCobrancaPorID(body.reference);
         return {
             referenceCode: data.charge.correlationID,
@@ -189,7 +212,9 @@ export default class OpenPixProvider implements ProviderInterface {
     }
 
     // Cadastrar pagamento manual (não suportado diretamente pela OpenPix)
-    async generateProviderWidthdraw(body: PixGenerateProviderWidthdraw): Promise<generateProviderWidthdrawOutput> {
+    async generateProviderWidthdraw(
+        body: PixGenerateProviderWidthdraw,
+    ): Promise<generateProviderWidthdrawOutput> {
         return {
             reference_code: randomUUID(),
             idempotent_id: body.idempotentId,
@@ -203,26 +228,31 @@ export default class OpenPixProvider implements ProviderInterface {
     }
 
     // Listar pagamentos (não diretamente suportado pela OpenPix)
-    async listProviderWidthdraw(body: listProviderWidthdraw): Promise<listProviderWidthdrawOutput> {
-        const response = await axios.get(`${this.baseUrl}/api/v1/subaccount/withdraw`, {
-            headers: this.getHeaders(),
-            params: {
-                page: body.page,
-                registrationStartDate: body.registrationStartDate,
-                registrationEndDate: body.registrationEndDate,
-                paymentStartDate: body.paymentStartDate,
-                paymentEndDate: body.paymentEndDate,
-            }
-        });
-    
+    async listProviderWidthdraw(
+        body: listProviderWidthdraw,
+    ): Promise<listProviderWidthdrawOutput> {
+        const response = await axios.get(
+            `${this.baseUrl}/api/v1/subaccount/withdraw`,
+            {
+                headers: this.getHeaders(),
+                params: {
+                    page: body.page,
+                    registrationStartDate: body.registrationStartDate,
+                    registrationEndDate: body.registrationEndDate,
+                    paymentStartDate: body.paymentStartDate,
+                    paymentEndDate: body.paymentEndDate,
+                },
+            },
+        );
+
         const payments = response.data.withdrawals.map((withdrawal: any) => ({
             referenceCode: withdrawal.correlationID,
             idempotentId: withdrawal.correlationID,
             valueCents: withdrawal.value,
-            pixKeyType: 'CPF',  // Exemplo
+            pixKeyType: 'CPF', // Exemplo
             pixKey: withdrawal.destinationAlias,
             receiverName: withdrawal.comment || 'Desconhecido',
-            receiverDocument: 'Não disponível',  // Depende do campo disponível
+            receiverDocument: 'Não disponível', // Depende do campo disponível
             status: withdrawal.status,
             registrationDate: withdrawal.createdAt,
             paymentDate: withdrawal.paymentDate,
@@ -230,45 +260,59 @@ export default class OpenPixProvider implements ProviderInterface {
             cancellationReason: withdrawal.cancellationReason || null,
             endToEnd: withdrawal.transactionID || 'N/A',
         }));
-    
+
         return {
             payments,
             meta: {
                 current_page: body.page || 1,
                 total_pages: 1, // Calcular se necessário
                 total_items_amount: payments.length,
-                total_value_cents: payments.reduce((acc: number, curr: any) => acc + curr.valueCents, 0),
+                total_value_cents: payments.reduce(
+                    (acc: number, curr: any) => acc + curr.valueCents,
+                    0,
+                ),
             },
         };
     }
 
+    // Função para consultar o saldo disponível via API OpenPix
     async getBalance(): Promise<BalanceOutput> {
-        return {
-            valueCents: 0,
-            valueFloat: 0.0
-        };
-    }
-    
-
-    async searchProviderWidthdraw(body: { correlationID: string }): Promise<Object> {
-        const response = await axios.get(`${this.baseUrl}/api/v1/subaccount/withdraw/${body.correlationID}`, {
+        const response = await axios.get(`${this.baseUrl}/api/v1/balance`, {
             headers: this.getHeaders(),
         });
-    
+
+        const balance = response.data;
+
+        return {
+            valueCents: balance.balance * 100, // Converte o valor para centavos
+            valueFloat: balance.balance, // Valor em formato decimal
+        };
+    }
+
+    async searchProviderWidthdraw(body: {
+        correlationID: string;
+    }): Promise<Object> {
+        const response = await axios.get(
+            `${this.baseUrl}/api/v1/subaccount/withdraw/${body.correlationID}`,
+            {
+                headers: this.getHeaders(),
+            },
+        );
+
         const data = response.data.withdrawal;
-    
+
         return {
             referenceCode: data.correlationID,
             idempotentId: data.correlationID,
             valueCents: data.value,
-            pixKeyType: 'CPF',  // Exemplo
+            pixKeyType: (new PixProvider({pixkey: data.destinationAlias})).determinePixType().type,
             pixKey: data.destinationAlias,
             receiverName: data.comment || 'Desconhecido',
-            receiverDocument: 'Não disponível',  // Depende do campo disponível
+            receiverDocument: 'Não disponível', // Depende do campo disponível
             status: data.status,
             registrationDate: data.createdAt,
             paymentDate: data.paymentDate,
             endToEnd: data.transactionID || 'N/A',
         };
-    }    
+    }
 }

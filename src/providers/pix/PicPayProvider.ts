@@ -162,47 +162,14 @@ export default class PicPayProvider implements ProviderInterface {
     async generateProviderWidthdraw(
         body: PixGenerateProviderWidthdraw,
     ): Promise<generateProviderWidthdrawOutput> {
-        return {
-            reference_code: randomUUID(),
-            idempotent_id: body.idempotentId,
-            value_cents: body.valueCents,
-            pix_key_type: body.pixKeyType || 'CPF',
-            pix_key: body.pixKey || '99999999999',
-            receiver_name: body.receiverName,
-            receiver_document: body.receiverDocument,
-            status: 'APPROVED',
-        };
+        throw new Error('Method not implemented.');
     }
 
     // Listar pagamentos (simulação)
     async listProviderWidthdraw(
         body: listProviderWidthdraw,
     ): Promise<listProviderWidthdrawOutput> {
-        return {
-            payments: [
-                {
-                    referenceCode: randomUUID(),
-                    idempotentId: 'idem123',
-                    valueCents: 10000,
-                    pixKeyType: 'CPF',
-                    pixKey: '12345678901',
-                    receiverName: 'Receiver Example',
-                    receiverDocument: '98765432100',
-                    status: 'COMPLETED',
-                    registrationDate: new Date().toISOString(),
-                    paymentDate: new Date().toISOString(),
-                    cancellationDate: null,
-                    cancellationReason: null,
-                    endToEnd: 'E123456789012345678901234567890123456789012345',
-                },
-            ],
-            meta: {
-                current_page: body.page,
-                total_pages: 1,
-                total_items_amount: 1,
-                total_value_cents: 10000,
-            },
-        };
+        throw new Error('Method not implemented.');
     }
 
     async getBalance(): Promise<BalanceOutput> {

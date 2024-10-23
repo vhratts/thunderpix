@@ -51,15 +51,6 @@ class PagarMeProvider {
         this.apiKey = configs.apiKey;
         this.baseUrl = 'https://api.pagar.me/core/v5';
     }
-    generateProviderWidthdraw(body) {
-        throw new Error('Method not implemented.');
-    }
-    listProviderWidthdraw(body) {
-        throw new Error('Method not implemented.');
-    }
-    searchProviderWidthdraw(body) {
-        throw new Error('Method not implemented.');
-    }
     getHeaders() {
         return {
             'Content-Type': 'application/json',
@@ -183,7 +174,7 @@ class PagarMeProvider {
     async getBalance() {
         return {
             valueCents: 0,
-            valueFloat: 0.0
+            valueFloat: 0.0,
         };
     }
     async searchPixBilling(body) {
@@ -194,6 +185,92 @@ class PagarMeProvider {
             status: data.status,
             registrationDate: data.date_created,
             paymentDate: data.date_updated,
+        };
+    }
+    async generateProviderWidthdraw(body) {
+        const payload = {
+            api_key: this.apiKey,
+            amount: body.valueCents,
+            bank_account: {
+                bank_code: body.bankIspb,
+                agencia: body.agency,
+                conta: body.account,
+                conta_dv: '0',
+                type: body.accountType === 'checking' ? 'conta_corrente' : 'conta_poupanca',
+                document_number: body.receiverDocument,
+                legal_name: body.receiverName,
+            },
+        };
+        const response = await axios_1.default.post(`${this.baseUrl}/transfers`, payload, {
+            headers: this.getHeaders(),
+        });
+        return {
+            reference_code: response.data.id,
+            idempotent_id: body.idempotentId,
+            value_cents: body.valueCents,
+            pix_key_type: body.pixKeyType || '',
+            pix_key: body.pixKey || '',
+            receiver_name: body.receiverName,
+            receiver_document: body.receiverDocument,
+            status: response.data.status,
+        };
+    }
+    async listProviderWidthdraw(body) {
+        const params = {
+            api_key: this.apiKey,
+            page: body.page || 1,
+            count: 20,
+            date_created_since: body.registrationStartDate,
+            date_created_until: body.registrationEndDate,
+        };
+        const response = await axios_1.default.get(`${this.baseUrl}/transfers`, {
+            headers: this.getHeaders(),
+            params,
+        });
+        const withdrawals = response.data.map((transfer) => ({
+            referenceCode: transfer.id,
+            idempotentId: transfer.correlation_id || '',
+            valueCents: transfer.amount,
+            pixKeyType: 'N/A',
+            pixKey: 'N/A',
+            receiverName: transfer.recipient_name,
+            receiverDocument: transfer.recipient_document_number,
+            status: transfer.status,
+            registrationDate: transfer.date_created,
+            paymentDate: transfer.date_updated,
+            cancellationDate: transfer.date_canceled || null,
+            cancellationReason: transfer.reason || null,
+            endToEnd: 'N/A',
+        }));
+        return {
+            payments: withdrawals,
+            meta: {
+                current_page: body.page || 1,
+                total_pages: Math.ceil(response.data.length / 20),
+                total_items_amount: response.data.length,
+                total_value_cents: withdrawals.reduce((acc, withdrawal) => acc + withdrawal.valueCents, 0),
+            },
+        };
+    }
+    async searchProviderWidthdraw(body) {
+        const response = await axios_1.default.get(`${this.baseUrl}/transfers/${body.correlationId}`, {
+            headers: this.getHeaders(),
+            params: { api_key: this.apiKey },
+        });
+        const transfer = response.data;
+        return {
+            referenceCode: transfer.id,
+            idempotentId: transfer.correlation_id || '',
+            valueCents: transfer.amount,
+            pixKeyType: 'N/A',
+            pixKey: 'N/A',
+            receiverName: transfer.recipient_name,
+            receiverDocument: transfer.recipient_document_number,
+            status: transfer.status,
+            registrationDate: transfer.date_created,
+            paymentDate: transfer.date_updated,
+            cancellationDate: transfer.date_canceled || null,
+            endToEnd: 'N/A',
         };
     }
 }

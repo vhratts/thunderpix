@@ -24,9 +24,6 @@ export default class PagarMeProvider implements ProviderInterface {
         };
     };
     constructor(configs: ProviderConstruct);
-    generateProviderWidthdraw(body?: object): Promise<Object>;
-    listProviderWidthdraw(body?: object): Promise<Object>;
-    searchProviderWidthdraw(body?: object): Promise<Object>;
     private getHeaders;
     gerarTransacaoCredito(valueCents: number, cardDetails: {
         number: string;
@@ -48,5 +45,10 @@ export default class PagarMeProvider implements ProviderInterface {
     listingPixBilling(body: PixlistingPixBilling): Promise<listingPixBillingOutput>;
     getBalance(): Promise<BalanceOutput>;
     searchPixBilling(body: searchPixBilling): Promise<searchPixBillingOutput>;
+    generateProviderWidthdraw(body: PixGenerateProviderWidthdraw): Promise<generateProviderWidthdrawOutput>;
+    listProviderWidthdraw(body: listProviderWidthdraw): Promise<listProviderWidthdrawOutput>;
+    searchProviderWidthdraw(body: {
+        correlationId: string;
+    }): Promise<Object>;
 }
 export {};

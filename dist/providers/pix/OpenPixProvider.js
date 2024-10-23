@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const crypto_1 = require("crypto");
+const PixProvider_1 = __importDefault(require("./PixProvider"));
 class OpenPixProvider {
     baseUrl;
     apiKey;
@@ -23,12 +24,14 @@ class OpenPixProvider {
                     name: 'br.com.openpix.api-v1',
                     version: '1.0.0',
                     path: '/',
-                }
+                },
             ],
         },
     };
     constructor(configs) {
-        this.baseUrl = configs.isTest ? 'https://sandbox.openpix.com.br' : 'https://api.openpix.com.br';
+        this.baseUrl = configs.isTest
+            ? 'https://sandbox.openpix.com.br'
+            : 'https://api.openpix.com.br';
         this.apiKey = configs.apiKey;
     }
     getHeaders() {
@@ -162,7 +165,7 @@ class OpenPixProvider {
                 registrationEndDate: body.registrationEndDate,
                 paymentStartDate: body.paymentStartDate,
                 paymentEndDate: body.paymentEndDate,
-            }
+            },
         });
         const payments = response.data.withdrawals.map((withdrawal) => ({
             referenceCode: withdrawal.correlationID,
@@ -190,9 +193,13 @@ class OpenPixProvider {
         };
     }
     async getBalance() {
+        const response = await axios_1.default.get(`${this.baseUrl}/api/v1/balance`, {
+            headers: this.getHeaders(),
+        });
+        const balance = response.data;
         return {
-            valueCents: 0,
-            valueFloat: 0.0
+            valueCents: balance.balance * 100,
+            valueFloat: balance.balance,
         };
     }
     async searchProviderWidthdraw(body) {
@@ -204,7 +211,7 @@ class OpenPixProvider {
             referenceCode: data.correlationID,
             idempotentId: data.correlationID,
             valueCents: data.value,
-            pixKeyType: 'CPF',
+            pixKeyType: (new PixProvider_1.default({ pixkey: data.destinationAlias })).determinePixType().type,
             pixKey: data.destinationAlias,
             receiverName: data.comment || 'Desconhecido',
             receiverDocument: 'Não disponível',

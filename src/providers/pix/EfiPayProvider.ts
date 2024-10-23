@@ -282,9 +282,19 @@ export default class EfiPayProvider implements ProviderInterface {
     }
 
     async getBalance(): Promise<BalanceOutput> {
+        // Garante que o token OAuth2 foi gerado
+        await this.generateToken();
+    
+        // Faz a requisição para obter o saldo
+        const response = await axios.get(`${this.baseUrl}/v2/conta/saldo`, {
+            headers: this.getHeaders(),
+        });
+    
+        const saldo = response.data;
+    
         return {
-            valueCents: 0,
-            valueFloat: 0.0
+            valueCents: Math.round(saldo.saldo * 100),  // Converte o valor para centavos
+            valueFloat: saldo.saldo,                    // Valor em formato decimal
         };
     }
 

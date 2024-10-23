@@ -241,9 +241,14 @@ class EfiPayProvider {
         };
     }
     async getBalance() {
+        await this.generateToken();
+        const response = await axios_1.default.get(`${this.baseUrl}/v2/conta/saldo`, {
+            headers: this.getHeaders(),
+        });
+        const saldo = response.data;
         return {
-            valueCents: 0,
-            valueFloat: 0.0
+            valueCents: Math.round(saldo.saldo * 100),
+            valueFloat: saldo.saldo,
         };
     }
     async searchProviderWidthdraw(body) {

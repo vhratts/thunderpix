@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const crypto_1 = require("crypto");
 class PicPayProvider {
     baseUrl;
     token;
@@ -105,43 +104,10 @@ class PicPayProvider {
         throw new Error('Method not implemented.');
     }
     async generateProviderWidthdraw(body) {
-        return {
-            reference_code: (0, crypto_1.randomUUID)(),
-            idempotent_id: body.idempotentId,
-            value_cents: body.valueCents,
-            pix_key_type: body.pixKeyType || 'CPF',
-            pix_key: body.pixKey || '99999999999',
-            receiver_name: body.receiverName,
-            receiver_document: body.receiverDocument,
-            status: 'APPROVED',
-        };
+        throw new Error('Method not implemented.');
     }
     async listProviderWidthdraw(body) {
-        return {
-            payments: [
-                {
-                    referenceCode: (0, crypto_1.randomUUID)(),
-                    idempotentId: 'idem123',
-                    valueCents: 10000,
-                    pixKeyType: 'CPF',
-                    pixKey: '12345678901',
-                    receiverName: 'Receiver Example',
-                    receiverDocument: '98765432100',
-                    status: 'COMPLETED',
-                    registrationDate: new Date().toISOString(),
-                    paymentDate: new Date().toISOString(),
-                    cancellationDate: null,
-                    cancellationReason: null,
-                    endToEnd: 'E123456789012345678901234567890123456789012345',
-                },
-            ],
-            meta: {
-                current_page: body.page,
-                total_pages: 1,
-                total_items_amount: 1,
-                total_value_cents: 10000,
-            },
-        };
+        throw new Error('Method not implemented.');
     }
     async getBalance() {
         return {
