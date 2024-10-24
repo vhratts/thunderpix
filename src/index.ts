@@ -45,13 +45,14 @@ export default class ThunderPix implements ThinderPixInterface {
             registrationDateEnd: string | null;
         };
     }) {
-        if ((params.type = 'output')) {
-            var response = await this.provider.listingPixBilling(
-                params?.options,
+        
+        if (params.type == 'output') {
+            var response = await this.provider.listProviderWidthdraw(
+                params.options,
             );
         } else {
-            var response = await this.provider.listProviderWidthdraw(
-                params?.options,
+            var response = await this.provider.listingPixBilling(
+                params.options,
             );
         }
 

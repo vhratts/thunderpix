@@ -1,6 +1,7 @@
 import axios from 'axios';
 import ProviderInterface from '../../interfaces/ProviderInterface';
 import { randomUUID } from 'crypto';
+import qs from "querystring";
 
 interface ProviderConstruct {
     clientId: string,
@@ -118,9 +119,18 @@ export default class PrimepagProvider implements ProviderInterface {
             payment_end_date: paymentEndDate,
         };
 
-        const response = await axios.get(`${this.baseUrl}/v1/pix/qrcodes`, {
+        if(!params.payment_start_date){
+            delete params.payment_start_date;
+        }
+
+        if(!params.payment_end_date){
+            delete params.payment_end_date;
+        }
+
+        var query = qs.encode(params);
+
+        const response = await axios.get(`${this.baseUrl}/v1/pix/qrcodes?${query}`, {
             headers: this.getHeaders(),
-            params,
         });
 
         return response.data;
@@ -207,9 +217,18 @@ export default class PrimepagProvider implements ProviderInterface {
             payment_end_date: paymentEndDate,
         };
 
-        const response = await axios.get(`${this.baseUrl}/v1/pix/payments`, {
-            headers: this.getHeaders(),
-            params,
+        if(!params.payment_start_date){
+            delete params.payment_start_date;
+        }
+
+        if(!params.payment_end_date){
+            delete params.payment_end_date;
+        }
+
+        var query = qs.encode(params);
+
+        const response = await axios.get(`${this.baseUrl}/v1/pix/payments?${query}`, {
+            headers: this.getHeaders()
         });
 
         return response.data;
@@ -225,6 +244,8 @@ export default class PrimepagProvider implements ProviderInterface {
             url,
             authorization,
         };
+
+
 
         const response = await axios.post(
             `${this.baseUrl}/v1/webhooks/${webhookTypeId}`,
@@ -265,7 +286,7 @@ export default class PrimepagProvider implements ProviderInterface {
         await this.generateToken();
 
         var data = await this.gerarQrCode(valueCents, expireTimestamp);
-        // console.log(data)
+
         return {
             qrcode: data.qrcode.image_base64,
             pixkey: data.qrcode.content,
@@ -290,6 +311,7 @@ export default class PrimepagProvider implements ProviderInterface {
         body: PixlistingPixBilling,
     ): Promise<listingPixBillingOutput> {
         await this.generateToken();
+
         var data = await this.listarQRCodes(
             body.page ?? 1,
             body.registrationDateStart ?? new Date().toISOString(),
@@ -364,13 +386,15 @@ export default class PrimepagProvider implements ProviderInterface {
     }
     async listProviderWidthdraw(body: listProviderWidthdraw): Promise<listProviderWidthdrawOutput> {
         await this.generateToken();
+
         var data = await this.listarPagamentos(
             body.page,
-            body.registrationStartDate,
-            body.registrationEndDate,
+            body.registrationDateStart,
+            body.registrationDateEnd,
             body.paymentStartDate,
             body.paymentEndDate,
         );
+
 
         data = data.payments.map((mp: any) => {
             return {

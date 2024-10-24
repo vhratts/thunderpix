@@ -244,8 +244,8 @@ export default class EfiPayProvider implements ProviderInterface {
     // Listar saques (withdrawals)
     async listProviderWidthdraw(body: listProviderWidthdraw): Promise<listProviderWidthdrawOutput> {
         const params = {
-            inicio: body.registrationStartDate || new Date().toISOString(),
-            fim: body.registrationEndDate || new Date().toISOString(),
+            inicio: body.registrationDateStart || new Date().toISOString(),
+            fim: body.registrationDateEnd || new Date().toISOString(),
             page: body.page,
         };
 

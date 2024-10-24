@@ -237,8 +237,8 @@ export default class OpenPixProvider implements ProviderInterface {
                 headers: this.getHeaders(),
                 params: {
                     page: body.page,
-                    registrationStartDate: body.registrationStartDate,
-                    registrationEndDate: body.registrationEndDate,
+                    registrationStartDate: body.registrationDateStart,
+                    registrationEndDate: body.registrationDateEnd,
                     paymentStartDate: body.paymentStartDate,
                     paymentEndDate: body.paymentEndDate,
                 },

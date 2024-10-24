@@ -40,8 +40,8 @@ interface searchPixBilling {
 
 interface listProviderWidthdraw {
     page: number;
-    registrationStartDate?: string;
-    registrationEndDate?: string;
+    registrationDateStart?: string;
+    registrationDateEnd?: string;
     paymentStartDate?: string;
     paymentEndDate?: string;
 }

@@ -207,8 +207,8 @@ class EfiPayProvider {
     }
     async listProviderWidthdraw(body) {
         const params = {
-            inicio: body.registrationStartDate || new Date().toISOString(),
-            fim: body.registrationEndDate || new Date().toISOString(),
+            inicio: body.registrationDateStart || new Date().toISOString(),
+            fim: body.registrationDateEnd || new Date().toISOString(),
             page: body.page,
         };
         const response = await axios_1.default.get(`${this.baseUrl}/v2/withdrawals`, {

@@ -52,7 +52,6 @@ export default class PixProvider implements ProviderInterface {
         nomeRecebedor: string | null = null,
         cidadeRecebedor: string | null = null,
     ): string {
-        console.log(valor);
         // Se não houver chave passada, usa a chave padrão da classe
         if (!chave) {
             chave = this.pixkey;

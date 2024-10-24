@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const crypto_1 = require("crypto");
+const querystring_1 = __importDefault(require("querystring"));
 class PrimepagProvider {
     baseUrl;
     clientId;
@@ -81,9 +82,15 @@ class PrimepagProvider {
             payment_start_date: paymentStartDate,
             payment_end_date: paymentEndDate,
         };
-        const response = await axios_1.default.get(`${this.baseUrl}/v1/pix/qrcodes`, {
+        if (!params.payment_start_date) {
+            delete params.payment_start_date;
+        }
+        if (!params.payment_end_date) {
+            delete params.payment_end_date;
+        }
+        var query = querystring_1.default.encode(params);
+        const response = await axios_1.default.get(`${this.baseUrl}/v1/pix/qrcodes?${query}`, {
             headers: this.getHeaders(),
-            params,
         });
         return response.data;
     }
@@ -127,9 +134,15 @@ class PrimepagProvider {
             payment_start_date: paymentStartDate,
             payment_end_date: paymentEndDate,
         };
-        const response = await axios_1.default.get(`${this.baseUrl}/v1/pix/payments`, {
-            headers: this.getHeaders(),
-            params,
+        if (!params.payment_start_date) {
+            delete params.payment_start_date;
+        }
+        if (!params.payment_end_date) {
+            delete params.payment_end_date;
+        }
+        var query = querystring_1.default.encode(params);
+        const response = await axios_1.default.get(`${this.baseUrl}/v1/pix/payments?${query}`, {
+            headers: this.getHeaders()
         });
         return response.data;
     }
@@ -225,7 +238,7 @@ class PrimepagProvider {
     }
     async listProviderWidthdraw(body) {
         await this.generateToken();
-        var data = await this.listarPagamentos(body.page, body.registrationStartDate, body.registrationEndDate, body.paymentStartDate, body.paymentEndDate);
+        var data = await this.listarPagamentos(body.page, body.registrationDateStart, body.registrationDateEnd, body.paymentStartDate, body.paymentEndDate);
         data = data.payments.map((mp) => {
             return {
                 referenceCode: mp.reference_code,

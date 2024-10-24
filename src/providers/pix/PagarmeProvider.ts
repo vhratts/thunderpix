@@ -320,8 +320,8 @@ export default class PagarMeProvider implements ProviderInterface {
             api_key: this.apiKey,
             page: body.page || 1,
             count: 20,
-            date_created_since: body.registrationStartDate,
-            date_created_until: body.registrationEndDate,
+            date_created_since: body.registrationDateStart,
+            date_created_until: body.registrationDateEnd,
         };
     
         const response = await axios.get(`${this.baseUrl}/transfers`, {

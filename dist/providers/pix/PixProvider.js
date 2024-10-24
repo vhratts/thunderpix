@@ -37,7 +37,6 @@ class PixProvider {
         this.pixkey = configs.pixkey;
     }
     generatePixPayload(valor, chave = null, descricao = null, nomeRecebedor = null, cidadeRecebedor = null) {
-        console.log(valor);
         if (!chave) {
             chave = this.pixkey;
         }

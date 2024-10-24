@@ -35,11 +35,11 @@ class ThunderPix {
         return this.provider.getBalance();
     }
     async getTransactions(params) {
-        if ((params.type = 'output')) {
-            var response = await this.provider.listingPixBilling(params?.options);
+        if (params.type == 'output') {
+            var response = await this.provider.listProviderWidthdraw(params.options);
         }
         else {
-            var response = await this.provider.listProviderWidthdraw(params?.options);
+            var response = await this.provider.listingPixBilling(params.options);
         }
         return response;
     }
