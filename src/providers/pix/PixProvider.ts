@@ -15,6 +15,7 @@ interface pixTypeOutput {
 
 export default class PixProvider implements ProviderInterface {
     private pixkey: string;
+    
     public providerInfo = {
         name: 'Pix',
         description: 'Provedor padrão de qrcode-pix',

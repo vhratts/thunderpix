@@ -94,7 +94,7 @@ De acordo com a atualização do desenvolvimento, esta tabela será modificada.
 
 >- AVISO: Esta tabela é atualizada de acordo com a entrada ou saida de provedores de pagamento do sistema. Caso alguma API fique indisponivel por queda do serviço do provedor, O mesmo será tirado desta biblioteca.
 
-| logo/imagem | nome/link | online/offline | Provedor | Recuperar Saldo | Gerar QrCode | Listar QrCodes | Buscar QrCode | Gerar Saques | Listar Saques | Buscar Saques |
+| logo/imagem/marca | nome/link | online/offline | Provedor | Recuperar Saldo | Gerar QrCode | Listar QrCodes | Buscar QrCode | Gerar Saques | Listar Saques | Buscar Saques |
 |------|-------------|--------|----------|-------------|--------------|----------------|---------------|-------------|--------------|--------------|
 | <img src="https://www.bcb.gov.br/content/estabilidadefinanceira/piximg/logo_pix.png" alt="Logo Pix" width="100" height="40"> | [Pix](https://www.bcb.gov.br/estabilidadefinanceira/pix) | ✅ online | [PixProvider](src/providers/pix/PixProvider.ts) | 🚫 Não | ✅ Sim | 🚫 Não | 🚫 Não | 🚫 Não | 🚫 Não | 🚫 Não |
 | <img src="https://primepag.com.br/wp-content/uploads/2023/12/Logo-Primepag-5-1-1536x339.png" alt="Logo Primepag" width="100" height="25"> | [Banco Primepag](https://primepag.com.br) | ✅ online | [PrimepagProvider](src/providers/pix/PrimepagProvider.ts) | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim |
@@ -102,7 +102,8 @@ De acordo com a atualização do desenvolvimento, esta tabela será modificada.
 | <img src="https://cdn.worldvectorlogo.com/logos/picpay-1.svg" alt="Logo PicPay" width="100" height="25"> | [PicPay](https://picpay.com) | ✅ online | [PicPayProvider](src/providers/pix/PicPayProvider.ts) | 🚫 Não | ✅ Sim | ✅ Sim | ✅ Sim | 🚫 Não | 🚫 Não | 🚫 Não |
 | <img src="https://lojaintegrada.com.br/assets/img/pagarme-logo.png" alt="Logo PicPay" width="100" height="35"> | [Pagar-me](https://pagar.me) | ✅ online | [PagarmeProvider](src/providers/pix/PagarmeProvider.ts) | 🚫 Não | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim |
 | <img src="https://openpix.com.br/_next/static/media/og-openpix.c750b819.png" alt="Logo OpenPix" width="100" height="55"> | [OpenPix](https://openpix.com.br) | ✅ online | [OpenPixProvider](src/providers/pix/OpenPixProvider.ts) | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim |
-| <img src="https://sejaefi.com.br/_ipx/_/images/components/menu/logo-efi-pay-orange.svg" alt="Logo OpenPix" width="100" height="55"> | [EfiPay](https://sejaefi.com.br) | ✅ online | [EfiPayProvider](src/providers/pix/EfiPayProvider.ts) | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim |
+| <img src="https://sejaefi.com.br/_ipx/_/images/components/menu/logo-efi-pay-orange.svg" alt="Logo EfiPay" width="100" height="55"> | [EfiPay](https://sejaefi.com.br) | ✅ online | [EfiPayProvider](src/providers/pix/EfiPayProvider.ts) | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim |
+| <img src="https://blog.catalogoapp.mobi/wp-content/uploads/2023/12/logo-Asaas_Azul.png" alt="Logo Asaas" width="120" height="50"> | [Asaas](https://docs.asaas.com) | ✅ online | [AsaasProvider](src/providers/pix/AsaasProvider.ts) | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim |
 
 ## Bugs e reports
 
