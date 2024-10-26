@@ -104,6 +104,7 @@ De acordo com a atualização do desenvolvimento, esta tabela será modificada.
 | <img src="https://openpix.com.br/_next/static/media/og-openpix.c750b819.png" alt="Logo OpenPix" width="100" height="55"> | [OpenPix](https://openpix.com.br) | ✅ online | [OpenPixProvider](src/providers/pix/OpenPixProvider.ts) | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim |
 | <img src="https://sejaefi.com.br/_ipx/_/images/components/menu/logo-efi-pay-orange.svg" alt="Logo EfiPay" width="100" height="55"> | [EfiPay](https://sejaefi.com.br) | ✅ online | [EfiPayProvider](src/providers/pix/EfiPayProvider.ts) | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim |
 | <img src="https://blog.catalogoapp.mobi/wp-content/uploads/2023/12/logo-Asaas_Azul.png" alt="Logo Asaas" width="120" height="50"> | [Asaas](https://docs.asaas.com) | ✅ online | [AsaasProvider](src/providers/pix/AsaasProvider.ts) | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim |
+| <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=350,fit=crop,q=95/dWxy08GyvPuD5rRY/base_logo_transparent_background-AQEyVK3WoKHW5MGl.png" alt="Logo Zendry" width="120" height="70"> | [Zendry](https://zendry.com) | ✅ online | [ZendryProvider](src/providers/pix/ZendryProvider.ts) | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim | ✅ Sim |
 
 ## Bugs e reports
 
