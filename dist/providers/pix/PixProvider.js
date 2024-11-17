@@ -120,6 +120,57 @@ class PixProvider {
         crc &= 0xffff;
         return crc.toString(16).toUpperCase().padStart(4, '0');
     }
+    extractPixPayload(evmpix) {
+        const data = {};
+        const mappings = {
+            '00': 'payloadFormatIndicator',
+            '01': 'pointOfInitiationMethod',
+            '26': 'merchantAccountInfo',
+            '52': 'merchantCategoryCode',
+            '53': 'transactionCurrency',
+            '54': 'transactionAmount',
+            '58': 'countryCode',
+            '59': 'merchantName',
+            '60': 'merchantCity',
+            '61': 'postalCode',
+            '62': 'additionalDataFieldTemplate',
+            '63': 'crc',
+        };
+        function processField(evmpix, offset) {
+            const id = evmpix.slice(offset, offset + 2);
+            const length = parseInt(evmpix.slice(offset + 2, offset + 4), 10);
+            const value = evmpix.slice(offset + 4, offset + 4 + length);
+            return { id, length, value, nextOffset: offset + 4 + length };
+        }
+        let offset = 0;
+        while (offset < evmpix.length) {
+            const { id, value, nextOffset } = processField(evmpix, offset);
+            offset = nextOffset;
+            const fieldName = mappings[id] || `unknownField_${id}`;
+            data[fieldName] = value;
+        }
+        const crcIndex = evmpix.indexOf('6304');
+        if (crcIndex !== -1) {
+            const crcPayload = evmpix.substring(0, crcIndex + 4);
+            const generatedCRC = this.generateCRC16(crcPayload);
+            if (generatedCRC !== evmpix.slice(crcIndex + 4, crcIndex + 8)) {
+                throw new Error('CRC16 mismatch - invalid EVM Pix code');
+            }
+        }
+        return {
+            format: data.payloadFormatIndicator,
+            method: data.pointOfInitiationMethod,
+            chave: data.merchantAccountInfo,
+            valor: data.transactionAmount,
+            moeda: data.transactionCurrency,
+            pais: data.countryCode,
+            nomeRecebedor: data.merchantName,
+            cidadeRecebedor: data.merchantCity,
+            cep: data.postalCode,
+            crc: data.crc,
+            additionalInfo: data.additionalDataFieldTemplate,
+        };
+    }
     async generatingPixBilling(body) {
         try {
             body.pixkey = this.pixkey ?? body.pixkey;

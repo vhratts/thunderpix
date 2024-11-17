@@ -13,6 +13,21 @@ interface pixTypeOutput {
     type: string
 }
 
+interface PixPayloadOutput {
+    format: string;                 // Indicador do formato do payload
+    method?: string;                // Método de iniciação (se presente)
+    chave: string;                  // Chave Pix do recebedor
+    valor?: string;                 // Valor da transação, se especificado
+    moeda: string;                  // Código da moeda
+    pais: string;                   // Código do país
+    nomeRecebedor: string;          // Nome do recebedor
+    cidadeRecebedor: string;        // Cidade do recebedor
+    cep?: string;                   // Código postal, se especificado
+    crc: string;                    // Código CRC16 para validação
+    additionalInfo?: string;        // Informações adicionais, se presentes
+}
+
+
 export default class PixProvider implements ProviderInterface {
     private pixkey: string;
     
@@ -164,7 +179,7 @@ export default class PixProvider implements ProviderInterface {
     }
 
     // Função que gera o checksum CRC16 (necessário para o payload Pix)
-    private generateCRC16(payload: string): string {
+    public generateCRC16(payload: string): string {
         let crc = 0xffff;
         for (let i = 0; i < payload.length; i++) {
             crc ^= payload.charCodeAt(i) << 8;
@@ -179,6 +194,71 @@ export default class PixProvider implements ProviderInterface {
         crc &= 0xffff;
         return crc.toString(16).toUpperCase().padStart(4, '0');
     }
+
+    public extractPixPayload(evmpix: string): PixPayloadOutput {
+        const data: any = {};
+    
+        // Mapeamento de IDs de campos EVM para seus respectivos nomes
+        const mappings: { [key: string]: string } = {
+            '00': 'payloadFormatIndicator',
+            '01': 'pointOfInitiationMethod',
+            '26': 'merchantAccountInfo',
+            '52': 'merchantCategoryCode',
+            '53': 'transactionCurrency',
+            '54': 'transactionAmount',
+            '58': 'countryCode',
+            '59': 'merchantName',
+            '60': 'merchantCity',
+            '61': 'postalCode',
+            '62': 'additionalDataFieldTemplate',
+            '63': 'crc',
+        };
+    
+        // Função auxiliar para processar os dados EVM
+        function processField(evmpix: string, offset: number): { id: string; length: number; value: string; nextOffset: number } {
+            const id = evmpix.slice(offset, offset + 2);
+            const length = parseInt(evmpix.slice(offset + 2, offset + 4), 10);
+            const value = evmpix.slice(offset + 4, offset + 4 + length);
+            return { id, length, value, nextOffset: offset + 4 + length };
+        }
+    
+        let offset = 0;
+    
+        while (offset < evmpix.length) {
+            const { id, value, nextOffset } = processField(evmpix, offset);
+            offset = nextOffset;
+    
+            // Verifica se o ID existe no objeto `mappings`
+            const fieldName = mappings[id as keyof typeof mappings] || `unknownField_${id}`;
+            data[fieldName] = value;
+        }
+    
+        // Verificação CRC para validar a chave EVM Pix
+        const crcIndex = evmpix.indexOf('6304'); // CRC16 identificador
+        if (crcIndex !== -1) {
+            const crcPayload = evmpix.substring(0, crcIndex + 4);
+            const generatedCRC = this.generateCRC16(crcPayload);
+            if (generatedCRC !== evmpix.slice(crcIndex + 4, crcIndex + 8)) {
+                throw new Error('CRC16 mismatch - invalid EVM Pix code');
+            }
+        }
+    
+        return {
+            format: data.payloadFormatIndicator,
+            method: data.pointOfInitiationMethod,
+            chave: data.merchantAccountInfo,
+            valor: data.transactionAmount,
+            moeda: data.transactionCurrency,
+            pais: data.countryCode,
+            nomeRecebedor: data.merchantName,
+            cidadeRecebedor: data.merchantCity,
+            cep: data.postalCode,
+            crc: data.crc,
+            additionalInfo: data.additionalDataFieldTemplate,
+        };
+    }
+    
+    
 
     async generatingPixBilling(
         body: PixGeneratingPixBillingInterface,

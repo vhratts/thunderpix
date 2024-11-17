@@ -2,14 +2,14 @@
  * Testes
  */
 
-import ThunderPix, { PixProvider, PrimepagProvider } from './index';
+import ThunderPix, { PixProvider, ZendryProvider } from './index';
 
 (async () => {
     // var provider = new PixProvider('91b7482c-3ef1-4eff-8d80-9a59c87773a8');
-    var provider = new PrimepagProvider({
-        clientId: 'ac536f63-0d9b-4897-9e33-f1cf67adaac0',
-        clientSecret: '38da4a8d-b99d-4d9a-8b85-0d66ba6789c0',
-        isTest: true,
+    var provider = new ZendryProvider({
+        clientId: '...',
+        clientSecret: '...',
+        isTest: false,
     });
 
     var thunder = new ThunderPix(provider);
@@ -19,14 +19,16 @@ import ThunderPix, { PixProvider, PrimepagProvider } from './index';
     //   expires: 3600,
     // });
 
-    var data = await thunder.getTransactions({
-        type: 'input',
-        options: {
-            page: 1,
-            registrationDateStart: new Date('2024-10-01').toISOString(),
-            registrationDateEnd: new Date().toISOString(),
-        },
-    });
+    // var data = await thunder.getTransactions({
+    //     type: 'input',
+    //     options: {
+    //         page: 1,
+    //         registrationDateStart: new Date('2024-10-01').toISOString(),
+    //         registrationDateEnd: new Date().toISOString(),
+    //     },
+    // });
+
+    var data = await thunder.getBalance();
 
     console.log(data);
 })();

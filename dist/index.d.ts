@@ -8,7 +8,9 @@ import PagarMeProvider from './providers/pix/PagarmeProvider';
 import OpenPixProvider from './providers/pix/OpenPixProvider';
 import CieloProvider from './providers/pix/CieloProvider';
 import EfiPayProvider from './providers/pix/EfiPayProvider';
-export { PixProvider, PrimepagProvider, MercadoPagoProvider, PicPayProvider, PagarMeProvider, OpenPixProvider, CieloProvider, EfiPayProvider, };
+import AsaasProvider from './providers/pix/AsaasProvider';
+import ZendryProvider from './providers/pix/ZendryProvider';
+export { PixProvider, PrimepagProvider, MercadoPagoProvider, PicPayProvider, PagarMeProvider, OpenPixProvider, CieloProvider, EfiPayProvider, AsaasProvider, ZendryProvider };
 export default class ThunderPix implements ThinderPixInterface {
     private provider;
     constructor(provider: ProviderInterface);

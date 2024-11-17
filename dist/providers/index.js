@@ -3,20 +3,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EfiPayProvider = exports.CieloProvider = exports.OpenPixProvider = exports.PicPayProvider = exports.PagarMeProvider = exports.MercadoPagoProvider = exports.PrimepagProvider = exports.PixProvider = void 0;
 const MercadoPagoProvider_1 = __importDefault(require("./pix/MercadoPagoProvider"));
-exports.MercadoPagoProvider = MercadoPagoProvider_1.default;
 const PagarmeProvider_1 = __importDefault(require("./pix/PagarmeProvider"));
-exports.PagarMeProvider = PagarmeProvider_1.default;
 const PicPayProvider_1 = __importDefault(require("./pix/PicPayProvider"));
-exports.PicPayProvider = PicPayProvider_1.default;
 const PixProvider_1 = __importDefault(require("./pix/PixProvider"));
-exports.PixProvider = PixProvider_1.default;
 const PrimepagProvider_1 = __importDefault(require("./pix/PrimepagProvider"));
-exports.PrimepagProvider = PrimepagProvider_1.default;
 const OpenPixProvider_1 = __importDefault(require("./pix/OpenPixProvider"));
-exports.OpenPixProvider = OpenPixProvider_1.default;
 const CieloProvider_1 = __importDefault(require("./pix/CieloProvider"));
-exports.CieloProvider = CieloProvider_1.default;
 const EfiPayProvider_1 = __importDefault(require("./pix/EfiPayProvider"));
-exports.EfiPayProvider = EfiPayProvider_1.default;
+const AsaasProvider_1 = __importDefault(require("./pix/AsaasProvider"));
+const ZendryProvider_1 = __importDefault(require("./pix/ZendryProvider"));
+exports.default = {
+    PixProvider: PixProvider_1.default, PrimepagProvider: PrimepagProvider_1.default, MercadoPagoProvider: MercadoPagoProvider_1.default,
+    PagarMeProvider: PagarmeProvider_1.default, PicPayProvider: PicPayProvider_1.default, OpenPixProvider: OpenPixProvider_1.default,
+    CieloProvider: CieloProvider_1.default, EfiPayProvider: EfiPayProvider_1.default, AsaasProvider: AsaasProvider_1.default, ZendryProvider: ZendryProvider_1.default
+};

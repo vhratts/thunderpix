@@ -6,6 +6,19 @@ interface pixTypeOutput {
     key: string;
     type: string;
 }
+interface PixPayloadOutput {
+    format: string;
+    method?: string;
+    chave: string;
+    valor?: string;
+    moeda: string;
+    pais: string;
+    nomeRecebedor: string;
+    cidadeRecebedor: string;
+    cep?: string;
+    crc: string;
+    additionalInfo?: string;
+}
 export default class PixProvider implements ProviderInterface {
     private pixkey;
     providerInfo: {
@@ -31,7 +44,8 @@ export default class PixProvider implements ProviderInterface {
     private CpfOrCnpjKey;
     private validateChavePix;
     determinePixType(chave?: any): pixTypeOutput;
-    private generateCRC16;
+    generateCRC16(payload: string): string;
+    extractPixPayload(evmpix: string): PixPayloadOutput;
     generatingPixBilling(body: PixGeneratingPixBillingInterface): Promise<Object>;
     listingPixBilling(body?: object): Promise<Object>;
     searchPixBilling(body?: object): Promise<Object>;
