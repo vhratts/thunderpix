@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const qrcode_1 = __importDefault(require("qrcode"));
 const cpf_cnpj_validator_1 = require("cpf-cnpj-validator");
 const pix_1 = __importDefault(require("../../utils/Bacem/pix"));
-const crypto_1 = require("crypto");
+const index_js_1 = require("../../utils/all/index.js");
 class PixProvider {
     pixkey;
     providerInfo = {
@@ -194,7 +194,7 @@ class PixProvider {
                     dateTime: new Date(expireTimestamp * 1000).toLocaleString('pt-BR'),
                     iso: new Date(expireTimestamp * 1000).toISOString(),
                 },
-                code: (0, crypto_1.randomUUID)(),
+                code: (0, index_js_1.randomUUID)(),
             };
         }
         catch (error) {

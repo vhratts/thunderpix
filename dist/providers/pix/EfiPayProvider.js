@@ -27,7 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const crypto_1 = require("crypto");
+const index_js_1 = require("../../utils/all/index.js");
 const fs = __importStar(require("fs"));
 class EfiPayProvider {
     baseUrl;
@@ -99,7 +99,7 @@ class EfiPayProvider {
             valor: {
                 original: (valueCents / 100).toFixed(2)
             },
-            chave: (0, crypto_1.randomUUID)(),
+            chave: (0, index_js_1.randomUUID)(),
             infoAdicionais: [
                 { nome: 'Descrição', valor: description }
             ]

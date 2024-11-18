@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const crypto_1 = require("crypto");
+const index_js_1 = require("../../utils/all/index.js");
 const PixProvider_1 = __importDefault(require("./PixProvider"));
 class OpenPixProvider {
     baseUrl;
@@ -42,7 +42,7 @@ class OpenPixProvider {
     }
     async gerarQrCodePix(valueCents, description, customer) {
         const payload = {
-            correlationID: (0, crypto_1.randomUUID)(),
+            correlationID: (0, index_js_1.randomUUID)(),
             value: valueCents,
             comment: description,
             customer: {
@@ -146,7 +146,7 @@ class OpenPixProvider {
     }
     async generateProviderWidthdraw(body) {
         return {
-            reference_code: (0, crypto_1.randomUUID)(),
+            reference_code: (0, index_js_1.randomUUID)(),
             idempotent_id: body.idempotentId,
             value_cents: body.valueCents,
             pix_key_type: body.pixKeyType || 'CPF',
