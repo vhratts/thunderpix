@@ -1,6 +1,6 @@
 import axios from 'axios';
 import ProviderInterface from '../../interfaces/ProviderInterface';
-import { randomUUID } from 'crypto';
+import { randomUUID } from '../../utils/all/index.js';
 import PixProvider from './PixProvider';
 
 interface ProviderConstruct {

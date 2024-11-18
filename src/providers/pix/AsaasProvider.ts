@@ -1,6 +1,5 @@
 import axios from 'axios';
 import ProviderInterface from '../../interfaces/ProviderInterface';
-import { randomUUID } from 'crypto';
 
 interface ProviderConstruct {
     apiKey: string;

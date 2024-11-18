@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const crypto_1 = require("crypto");
+const index_js_1 = require("../../utils/all/index.js");
 const PixProvider_1 = __importDefault(require("./PixProvider"));
 class CieloPixProvider {
     baseUrl;
@@ -68,7 +68,7 @@ class CieloPixProvider {
     }
     async gerarQrCodePix(valueCents, body) {
         const payload = {
-            MerchantOrderId: (0, crypto_1.randomUUID)(),
+            MerchantOrderId: (0, index_js_1.randomUUID)(),
             Payment: {
                 Type: 'Pix',
                 Amount: valueCents,
@@ -178,7 +178,7 @@ class CieloPixProvider {
     }
     async generateProviderWidthdraw(body) {
         const payload = {
-            correlationId: (0, crypto_1.randomUUID)(),
+            correlationId: (0, index_js_1.randomUUID)(),
             value: body.valueCents,
             pixKey: body.pixKey,
             description: `Saque para ${body.receiverName}`,
