@@ -1,7 +1,7 @@
 import axios from 'axios';
 import ProviderInterface from '../../interfaces/ProviderInterface';
 import { randomUUID } from '../../utils/all/index.js';
-import * as fs from 'fs';
+// import * as fs from 'fs';
 
 interface ProviderConstruct {
     clientId: string;
@@ -59,10 +59,14 @@ export default class EfiPayProvider implements ProviderInterface {
                     Authorization: `Basic ${auth}`,
                     'Content-Type': 'application/json',
                 },
-                httpsAgent: new (require('https').Agent)({
-                    pfx: fs.readFileSync(this.certificatePath),
-                    passphrase: '', // Senha do certificado se houver
-                }),
+                /**
+                 * Futura correção para 
+                 * compatibilidade com backend e frontend
+                 */
+                // httpsAgent: new (require('https').Agent)({
+                //     pfx: fs.readFileSync(this.certificatePath),
+                //     passphrase: '', // Senha do certificado se houver
+                // }),
             }
         );
 
