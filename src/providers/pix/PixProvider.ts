@@ -2,7 +2,7 @@ import qrcode from 'qrcode';
 import { cpf, cnpj } from 'cpf-cnpj-validator';
 import ProviderInterface from '../../interfaces/ProviderInterface';
 import pix from '../../utils/Bacem/pix';
-import { randomUUID } from 'crypto';
+import { randomUUID } from '../../utils/all/index.js';
 
 interface ProviderConstruct {
     pixkey: string
