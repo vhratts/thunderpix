@@ -5,12 +5,15 @@
 import ThunderPix, { PixProvider, ZendryProvider } from './index';
 
 (async () => {
-    // var provider = new PixProvider('91b7482c-3ef1-4eff-8d80-9a59c87773a8');
-    var provider = new ZendryProvider({
-        clientId: '...',
-        clientSecret: '...',
-        isTest: false,
+    var provider = new PixProvider({
+        pixkey: '91b7482c-3ef1-4eff-8d80-9a59c87773a8'
     });
+
+    // var provider = new ZendryProvider({
+    //     clientId: '...',
+    //     clientSecret: '...',
+    //     isTest: false,
+    // });
 
     var thunder = new ThunderPix(provider);
 
@@ -28,7 +31,8 @@ import ThunderPix, { PixProvider, ZendryProvider } from './index';
     //     },
     // });
 
-    var data = await thunder.getBalance();
+    // var data = await thunder.getBalance();
+    var data = provider.extractPixPayload("00020126790014BR.GOV.BCB.PIX0136f50c83a9-9dc0-43b2-9765-821fb07969170217mensagem de teste52040000530398654041.005802BR5925Victor Hugo Sergio Brito 6009SAO PAULO62140510GNLIXSIv4j63046166")
 
     console.log(data);
 })();

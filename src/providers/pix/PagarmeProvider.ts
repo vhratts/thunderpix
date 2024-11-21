@@ -1,6 +1,6 @@
 import axios from 'axios';
 import ProviderInterface from '../../interfaces/ProviderInterface';
-import { randomUUID } from '../../utils/all/index.js';
+import { randomUUID } from '../../utils/all/index';
 
 
 interface ProviderConstruct {

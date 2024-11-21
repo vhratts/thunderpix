@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const qrcode_1 = __importDefault(require("qrcode"));
 const cpf_cnpj_validator_1 = require("cpf-cnpj-validator");
 const pix_1 = __importDefault(require("../../utils/Bacem/pix"));
-const index_js_1 = require("../../utils/all/index.js");
+const index_js_1 = require("../../utils/all/index");
 class PixProvider {
     pixkey;
     providerInfo = {

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const index_js_1 = require("../../utils/all/index.js");
+const index_js_1 = require("../../utils/all/index");
 const querystring_1 = __importDefault(require("querystring"));
 class PrimepagProvider {
     baseUrl;

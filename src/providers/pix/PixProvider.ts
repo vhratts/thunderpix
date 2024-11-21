@@ -2,7 +2,7 @@ import qrcode from 'qrcode';
 import { cpf, cnpj } from 'cpf-cnpj-validator';
 import ProviderInterface from '../../interfaces/ProviderInterface';
 import pix from '../../utils/Bacem/pix';
-import { randomUUID } from '../../utils/all/index.js';
+import { randomUUID } from '../../utils/all/index';
 
 interface ProviderConstruct {
     pixkey: string
@@ -197,8 +197,6 @@ export default class PixProvider implements ProviderInterface {
 
     public extractPixPayload(evmpix: string): PixPayloadOutput {
         const data: any = {};
-    
-        // Mapeamento de IDs de campos EVM para seus respectivos nomes
         const mappings: { [key: string]: string } = {
             '00': 'payloadFormatIndicator',
             '01': 'pointOfInitiationMethod',
@@ -214,8 +212,10 @@ export default class PixProvider implements ProviderInterface {
             '63': 'crc',
         };
     
-        // Função auxiliar para processar os dados EVM
-        function processField(evmpix: string, offset: number): { id: string; length: number; value: string; nextOffset: number } {
+        function processField(
+            evmpix: string,
+            offset: number
+        ): { id: string; length: number; value: string; nextOffset: number } {
             const id = evmpix.slice(offset, offset + 2);
             const length = parseInt(evmpix.slice(offset + 2, offset + 4), 10);
             const value = evmpix.slice(offset + 4, offset + 4 + length);
@@ -228,13 +228,29 @@ export default class PixProvider implements ProviderInterface {
             const { id, value, nextOffset } = processField(evmpix, offset);
             offset = nextOffset;
     
-            // Verifica se o ID existe no objeto `mappings`
             const fieldName = mappings[id as keyof typeof mappings] || `unknownField_${id}`;
-            data[fieldName] = value;
+    
+            // Tratamento especial para merchantAccountInfo (ID 26)
+            if (id === '26') {
+                const subfields: any = {};
+                let subOffset = 0;
+                while (subOffset < value.length) {
+                    const { id: subId, value: subValue, nextOffset: subNextOffset } = processField(
+                        value,
+                        subOffset
+                    );
+                    subOffset = subNextOffset;
+    
+                    if (subId === '01') subfields.pixKey = subValue; // Identificador da chave Pix
+                }
+                data[fieldName] = subfields.pixKey || '';
+            } else {
+                data[fieldName] = value;
+            }
         }
     
-        // Verificação CRC para validar a chave EVM Pix
-        const crcIndex = evmpix.indexOf('6304'); // CRC16 identificador
+        // Validação CRC
+        const crcIndex = evmpix.indexOf('6304');
         if (crcIndex !== -1) {
             const crcPayload = evmpix.substring(0, crcIndex + 4);
             const generatedCRC = this.generateCRC16(crcPayload);
@@ -244,9 +260,9 @@ export default class PixProvider implements ProviderInterface {
         }
     
         return {
-            format: data.payloadFormatIndicator,
+            format: data.payloadFormatIndicator || '',
             method: data.pointOfInitiationMethod,
-            chave: data.merchantAccountInfo,
+            chave: data.merchantAccountInfo || '',
             valor: data.transactionAmount,
             moeda: data.transactionCurrency,
             pais: data.countryCode,
@@ -259,7 +275,6 @@ export default class PixProvider implements ProviderInterface {
     }
     
     
-
     async generatingPixBilling(
         body: PixGeneratingPixBillingInterface,
     ): Promise<Object> {

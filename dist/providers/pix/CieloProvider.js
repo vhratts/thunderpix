@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const index_js_1 = require("../../utils/all/index.js");
+const index_js_1 = require("../../utils/all/index");
 const PixProvider_1 = __importDefault(require("./PixProvider"));
 class CieloPixProvider {
     baseUrl;
