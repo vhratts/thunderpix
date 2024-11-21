@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const qrcode_1 = __importDefault(require("qrcode"));
 const cpf_cnpj_validator_1 = require("cpf-cnpj-validator");
 const pix_1 = __importDefault(require("../../utils/Bacem/pix"));
-const index_js_1 = require("../../utils/all/index");
+const index_1 = require("../../utils/all/index");
 class PixProvider {
     pixkey;
     providerInfo = {
@@ -147,7 +147,20 @@ class PixProvider {
             const { id, value, nextOffset } = processField(evmpix, offset);
             offset = nextOffset;
             const fieldName = mappings[id] || `unknownField_${id}`;
-            data[fieldName] = value;
+            if (id === '26') {
+                const subfields = {};
+                let subOffset = 0;
+                while (subOffset < value.length) {
+                    const { id: subId, value: subValue, nextOffset: subNextOffset } = processField(value, subOffset);
+                    subOffset = subNextOffset;
+                    if (subId === '01')
+                        subfields.pixKey = subValue;
+                }
+                data[fieldName] = subfields.pixKey || '';
+            }
+            else {
+                data[fieldName] = value;
+            }
         }
         const crcIndex = evmpix.indexOf('6304');
         if (crcIndex !== -1) {
@@ -158,9 +171,9 @@ class PixProvider {
             }
         }
         return {
-            format: data.payloadFormatIndicator,
+            format: data.payloadFormatIndicator || '',
             method: data.pointOfInitiationMethod,
-            chave: data.merchantAccountInfo,
+            chave: data.merchantAccountInfo || '',
             valor: data.transactionAmount,
             moeda: data.transactionCurrency,
             pais: data.countryCode,
@@ -194,7 +207,7 @@ class PixProvider {
                     dateTime: new Date(expireTimestamp * 1000).toLocaleString('pt-BR'),
                     iso: new Date(expireTimestamp * 1000).toISOString(),
                 },
-                code: (0, index_js_1.randomUUID)(),
+                code: (0, index_1.randomUUID)(),
             };
         }
         catch (error) {

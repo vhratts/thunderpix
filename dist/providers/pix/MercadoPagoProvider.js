@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const index_js_1 = require("../../utils/all/index");
+const index_1 = require("../../utils/all/index");
 class MercadoPagoProvider {
     baseUrl;
     clientId;
@@ -155,7 +155,7 @@ class MercadoPagoProvider {
                 dateTime: new Date(expireTimestamp * 1000).toLocaleString('pt-BR'),
                 iso: new Date(expireTimestamp * 1000).toISOString(),
             },
-            code: data.id ?? (0, index_js_1.randomUUID)(),
+            code: data.id ?? (0, index_1.randomUUID)(),
         };
     }
     async listingPixBilling(body) {
