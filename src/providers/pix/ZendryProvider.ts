@@ -1,7 +1,7 @@
 import axios from 'axios';
 import ProviderInterface from '../../interfaces/ProviderInterface';
 import { randomUUID } from '../../utils/all/index';
-import qs from "querystring";
+import qs from "../../utils/QueryString/index";
 
 interface ProviderConstruct {
     clientId: string,
@@ -127,7 +127,7 @@ export default class ZendryProvider implements ProviderInterface {
             delete params.payment_end_date;
         }
 
-        var query = qs.encode(params);
+        var query = qs.stringify(params);
 
         const response = await axios.get(`${this.baseUrl}/v1/pix/qrcodes?${query}`, {
             headers: this.getHeaders(),
@@ -225,7 +225,7 @@ export default class ZendryProvider implements ProviderInterface {
             delete params.payment_end_date;
         }
 
-        var query = qs.encode(params);
+        var query = qs.stringify(params);
 
         const response = await axios.get(`${this.baseUrl}/v1/pix/payments?${query}`, {
             headers: this.getHeaders()

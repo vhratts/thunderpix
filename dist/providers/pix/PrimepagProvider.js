@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const index_1 = require("../../utils/all/index");
-const querystring_1 = __importDefault(require("querystring"));
+const index_2 = __importDefault(require("../../utils/QueryString/index"));
 class PrimepagProvider {
     baseUrl;
     clientId;
@@ -88,7 +88,7 @@ class PrimepagProvider {
         if (!params.payment_end_date) {
             delete params.payment_end_date;
         }
-        var query = querystring_1.default.encode(params);
+        var query = index_2.default.stringify(params);
         const response = await axios_1.default.get(`${this.baseUrl}/v1/pix/qrcodes?${query}`, {
             headers: this.getHeaders(),
         });
@@ -140,7 +140,7 @@ class PrimepagProvider {
         if (!params.payment_end_date) {
             delete params.payment_end_date;
         }
-        var query = querystring_1.default.encode(params);
+        var query = index_2.default.stringify(params);
         const response = await axios_1.default.get(`${this.baseUrl}/v1/pix/payments?${query}`, {
             headers: this.getHeaders()
         });
