@@ -5,32 +5,36 @@ import pix from '../../utils/Bacem/pix';
 import { randomUUID } from '../../utils/all/index';
 
 interface ProviderConstruct {
-    pixkey: string
+    pixkey: string;
 }
 
 interface pixTypeOutput {
-    key: string,
-    type: string
+    key: string;
+    type: string;
+}
+
+interface pixGenerateCopyAndPastOutput {
+    qrcode: string;
+    metadata: string;
 }
 
 interface PixPayloadOutput {
-    format: string;                 // Indicador do formato do payload
-    method?: string;                // Método de iniciação (se presente)
-    chave: string;                  // Chave Pix do recebedor
-    valor?: string;                 // Valor da transação, se especificado
-    moeda: string;                  // Código da moeda
-    pais: string;                   // Código do país
-    nomeRecebedor: string;          // Nome do recebedor
-    cidadeRecebedor: string;        // Cidade do recebedor
-    cep?: string;                   // Código postal, se especificado
-    crc: string;                    // Código CRC16 para validação
-    additionalInfo?: string;        // Informações adicionais, se presentes
+    format: string; // Indicador do formato do payload
+    method?: string; // Método de iniciação (se presente)
+    chave: string; // Chave Pix do recebedor
+    valor?: string; // Valor da transação, se especificado
+    moeda: string; // Código da moeda
+    pais: string; // Código do país
+    nomeRecebedor: string; // Nome do recebedor
+    cidadeRecebedor: string; // Cidade do recebedor
+    cep?: string; // Código postal, se especificado
+    crc: string; // Código CRC16 para validação
+    additionalInfo?: string; // Informações adicionais, se presentes
 }
-
 
 export default class PixProvider implements ProviderInterface {
     private pixkey: string;
-    
+
     public providerInfo = {
         name: 'Pix',
         description: 'Provedor padrão de qrcode-pix',
@@ -110,6 +114,17 @@ export default class PixProvider implements ProviderInterface {
         return payload;
     }
 
+    public async generateCopyAndPastQrCode(
+        code: string,
+        options?: qrcode.QRCodeToDataURLOptions,
+    ): Promise<pixGenerateCopyAndPastOutput> {
+        const qrCodeDataURL = await qrcode.toDataURL(code, options);
+        return {
+            qrcode: qrCodeDataURL,
+            metadata: code,
+        };
+    }
+
     // Função para gerar o QR Code Pix
     public async generatePixQRCode(
         chave: string,
@@ -155,7 +170,7 @@ export default class PixProvider implements ProviderInterface {
     }
 
     public determinePixType(chave?: any): pixTypeOutput {
-        if(!chave){
+        if (!chave) {
             chave = this.pixkey;
         }
         const isEmail = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(chave);
@@ -168,13 +183,17 @@ export default class PixProvider implements ProviderInterface {
         const isCpfCnpj = this.CpfOrCnpjKey(chave); // Validação de CPF ou CNPJ
         return {
             key: chave,
-            type: (
-                isEmail ? 'email' :
-                isTelefone ? 'phone' :
-                isAleatoria ? 'token' :
-                isUuid ? 'random' :
-                isCpfCnpj ? 'cpf' : 'cnpj'
-            )
+            type: isEmail
+                ? 'email'
+                : isTelefone
+                  ? 'phone'
+                  : isAleatoria
+                    ? 'token'
+                    : isUuid
+                      ? 'random'
+                      : isCpfCnpj
+                        ? 'cpf'
+                        : 'cnpj',
         };
     }
 
@@ -211,36 +230,38 @@ export default class PixProvider implements ProviderInterface {
             '62': 'additionalDataFieldTemplate',
             '63': 'crc',
         };
-    
+
         function processField(
             evmpix: string,
-            offset: number
+            offset: number,
         ): { id: string; length: number; value: string; nextOffset: number } {
             const id = evmpix.slice(offset, offset + 2);
             const length = parseInt(evmpix.slice(offset + 2, offset + 4), 10);
             const value = evmpix.slice(offset + 4, offset + 4 + length);
             return { id, length, value, nextOffset: offset + 4 + length };
         }
-    
+
         let offset = 0;
-    
+
         while (offset < evmpix.length) {
             const { id, value, nextOffset } = processField(evmpix, offset);
             offset = nextOffset;
-    
-            const fieldName = mappings[id as keyof typeof mappings] || `unknownField_${id}`;
-    
+
+            const fieldName =
+                mappings[id as keyof typeof mappings] || `unknownField_${id}`;
+
             // Tratamento especial para merchantAccountInfo (ID 26)
             if (id === '26') {
                 const subfields: any = {};
                 let subOffset = 0;
                 while (subOffset < value.length) {
-                    const { id: subId, value: subValue, nextOffset: subNextOffset } = processField(
-                        value,
-                        subOffset
-                    );
+                    const {
+                        id: subId,
+                        value: subValue,
+                        nextOffset: subNextOffset,
+                    } = processField(value, subOffset);
                     subOffset = subNextOffset;
-    
+
                     if (subId === '01') subfields.pixKey = subValue; // Identificador da chave Pix
                 }
                 data[fieldName] = subfields.pixKey || '';
@@ -248,7 +269,7 @@ export default class PixProvider implements ProviderInterface {
                 data[fieldName] = value;
             }
         }
-    
+
         // Validação CRC
         const crcIndex = evmpix.indexOf('6304');
         if (crcIndex !== -1) {
@@ -258,7 +279,7 @@ export default class PixProvider implements ProviderInterface {
                 throw new Error('CRC16 mismatch - invalid EVM Pix code');
             }
         }
-    
+
         return {
             format: data.payloadFormatIndicator || '',
             method: data.pointOfInitiationMethod,
@@ -273,8 +294,7 @@ export default class PixProvider implements ProviderInterface {
             additionalInfo: data.additionalDataFieldTemplate,
         };
     }
-    
-    
+
     async generatingPixBilling(
         body: PixGeneratingPixBillingInterface,
     ): Promise<Object> {
@@ -345,10 +365,10 @@ export default class PixProvider implements ProviderInterface {
     async getBalance(): Promise<BalanceOutput> {
         return {
             valueCents: 0,
-            valueFloat: 0.0
+            valueFloat: 0.0,
         };
     }
-    
+
     searchProviderWidthdraw(body?: object): Promise<Object> {
         throw new Error('Method not implemented.');
     }

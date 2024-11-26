@@ -1,3 +1,4 @@
+import qrcode from 'qrcode';
 import ProviderInterface from '../../interfaces/ProviderInterface';
 interface ProviderConstruct {
     pixkey: string;
@@ -5,6 +6,10 @@ interface ProviderConstruct {
 interface pixTypeOutput {
     key: string;
     type: string;
+}
+interface pixGenerateCopyAndPastOutput {
+    qrcode: string;
+    metadata: string;
 }
 interface PixPayloadOutput {
     format: string;
@@ -40,6 +45,7 @@ export default class PixProvider implements ProviderInterface {
     };
     constructor(configs: ProviderConstruct);
     generatePixPayload(valor: number, chave?: string | null, descricao?: string | null, nomeRecebedor?: string | null, cidadeRecebedor?: string | null): string;
+    generateCopyAndPastQrCode(code: string, options?: qrcode.QRCodeToDataURLOptions): Promise<pixGenerateCopyAndPastOutput>;
     generatePixQRCode(chave: string, valor: number, descricao: string, nomeRecebedor: string, cidadeRecebedor: string): Promise<string>;
     private CpfOrCnpjKey;
     private validateChavePix;

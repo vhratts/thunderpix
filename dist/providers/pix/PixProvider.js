@@ -64,6 +64,13 @@ class PixProvider {
         });
         return payload;
     }
+    async generateCopyAndPastQrCode(code, options) {
+        const qrCodeDataURL = await qrcode_1.default.toDataURL(code, options);
+        return {
+            qrcode: qrCodeDataURL,
+            metadata: code,
+        };
+    }
     async generatePixQRCode(chave, valor, descricao, nomeRecebedor, cidadeRecebedor) {
         const payload = this.generatePixPayload(valor, chave, descricao, nomeRecebedor, cidadeRecebedor);
         const qrCodeDataUrl = await qrcode_1.default.toDataURL(payload);
@@ -97,11 +104,17 @@ class PixProvider {
         const isCpfCnpj = this.CpfOrCnpjKey(chave);
         return {
             key: chave,
-            type: (isEmail ? 'email' :
-                isTelefone ? 'phone' :
-                    isAleatoria ? 'token' :
-                        isUuid ? 'random' :
-                            isCpfCnpj ? 'cpf' : 'cnpj')
+            type: isEmail
+                ? 'email'
+                : isTelefone
+                    ? 'phone'
+                    : isAleatoria
+                        ? 'token'
+                        : isUuid
+                            ? 'random'
+                            : isCpfCnpj
+                                ? 'cpf'
+                                : 'cnpj',
         };
     }
     generateCRC16(payload) {
@@ -151,7 +164,7 @@ class PixProvider {
                 const subfields = {};
                 let subOffset = 0;
                 while (subOffset < value.length) {
-                    const { id: subId, value: subValue, nextOffset: subNextOffset } = processField(value, subOffset);
+                    const { id: subId, value: subValue, nextOffset: subNextOffset, } = processField(value, subOffset);
                     subOffset = subNextOffset;
                     if (subId === '01')
                         subfields.pixKey = subValue;
@@ -229,7 +242,7 @@ class PixProvider {
     async getBalance() {
         return {
             valueCents: 0,
-            valueFloat: 0.0
+            valueFloat: 0.0,
         };
     }
     searchProviderWidthdraw(body) {
