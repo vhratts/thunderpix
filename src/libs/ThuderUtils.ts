@@ -1,69 +1,43 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import axios from 'axios';
+// import jwt, { JwtPayload } from 'jsonwebtoken';
+// import axios from 'axios';
 
 export default class ThunderUtils {
-    /**
-     * Decodifica e valida um JWT.
-     * @param token O token JWT recebido.
-     * @param jwksUrl URL do JWKS para buscar a chave pública.
-     * @returns Os dados do payload, se válidos.
-     */
-    async decodeAndValidateJWT(
-        token: string,
-        jwksUrl: string,
-    ): Promise<JwtPayload | null> {
-        try {
-            // Decodifica o header do JWT para obter o `kid`
-            const decodedHeader = jwt.decode(token, { complete: true }) as {
-                header: { kid: string };
-            } | null;
-
-            if (!decodedHeader || !decodedHeader.header.kid) {
-                throw new Error('Header do JWT inválido.');
-            }
-
-            const kid = decodedHeader.header.kid;
-
-            // Busca as chaves públicas do JWKS
-            const response = await axios.get(jwksUrl);
-            const keys = response.data.keys;
-
-            // Encontra a chave correspondente ao `kid`
-            const key = keys.find((key: any) => key.kid === kid);
-            if (!key) {
-                throw new Error('Chave correspondente ao kid não encontrada.');
-            }
-
-            // Converte a chave pública para PEM
-            const publicKey = `-----BEGIN PUBLIC KEY-----\n${key.x5c[0]}\n-----END PUBLIC KEY-----`;
-
-            // Verifica e valida o token
-            const payload = jwt.verify(token, publicKey, {
-                algorithms: ['RS256'],
-            }) as JwtPayload;
-
-            return payload;
-        } catch (error) {
-            console.error('Erro ao decodificar ou validar o JWT:', error);
-            return null;
-        }
-    }
-
     /**
      * Decodifica um JWT e exibe o Header e o Payload.
      * @param token O token JWT a ser decodificado.
      * @returns Um objeto contendo o Header e o Payload.
      */
-    decodeJWT(token: string): { header: object; payload: string | JwtPayload } | null {
+    decodeJWT(
+        token: string,
+    ): { header: object; payload: string | object } | null {
         try {
-            // Decodifica o JWT sem validação
-            const decoded = jwt.decode(token, { complete: true });
+            // Dividir o token em suas partes (Header, Payload e Signature)
+            const [headerEncoded, payloadEncoded] = token.split('.');
 
-            if (!decoded || typeof decoded !== 'object') {
+            if (!headerEncoded || !payloadEncoded) {
                 throw new Error('Token inválido.');
             }
 
-            const { header, payload } = decoded;
+            // Função para decodificar Base64URL
+            const base64UrlDecode = (str: string): string => {
+                const base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+                return decodeURIComponent(
+                    atob(base64)
+                        .split('')
+                        .map(
+                            (c) =>
+                                `%${c.charCodeAt(0).toString(16).padStart(2, '0')}`,
+                        )
+                        .join(''),
+                );
+            };
+
+            // Decodificar Header e Payload
+            const header = JSON.parse(base64UrlDecode(headerEncoded));
+            const payload = JSON.parse(base64UrlDecode(payloadEncoded));
+
+            // console.log('Header:', header);
+            // console.log('Payload:', payload);
 
             return { header, payload };
         } catch (error) {
