@@ -1,5 +1,6 @@
 import ProviderInterface from './interfaces/ProviderInterface';
 import ThinderPixInterface from './interfaces/ThunderPixInterface';
+import ThunderUtils from './libs/ThuderUtils';
 import PixProvider from './providers/pix/PixProvider';
 import PrimepagProvider from './providers/pix/PrimepagProvider';
 import MercadoPagoProvider from './providers/pix/MercadoPagoProvider';
@@ -21,7 +22,8 @@ export {
     CieloProvider,
     EfiPayProvider,
     AsaasProvider,
-    ZendryProvider
+    ZendryProvider,
+    ThunderUtils
 };
 
 export default class ThunderPix implements ThinderPixInterface {

@@ -3,7 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ZendryProvider = exports.AsaasProvider = exports.EfiPayProvider = exports.CieloProvider = exports.OpenPixProvider = exports.PagarMeProvider = exports.PicPayProvider = exports.MercadoPagoProvider = exports.PrimepagProvider = exports.PixProvider = void 0;
+exports.ThunderUtils = exports.ZendryProvider = exports.AsaasProvider = exports.EfiPayProvider = exports.CieloProvider = exports.OpenPixProvider = exports.PagarMeProvider = exports.PicPayProvider = exports.MercadoPagoProvider = exports.PrimepagProvider = exports.PixProvider = void 0;
+const ThuderUtils_1 = __importDefault(require("./libs/ThuderUtils"));
+exports.ThunderUtils = ThuderUtils_1.default;
 const PixProvider_1 = __importDefault(require("./providers/pix/PixProvider"));
 exports.PixProvider = PixProvider_1.default;
 const PrimepagProvider_1 = __importDefault(require("./providers/pix/PrimepagProvider"));
