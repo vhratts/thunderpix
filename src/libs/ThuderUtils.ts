@@ -15,6 +15,12 @@ interface EMVObject {
     [key: string]: EMVItem;
 }
 
+interface PixIdentifyOutput {
+    type: string;
+    regex: string;
+    status: boolean;
+}
+
 /**
  * Mapeia os nomes conhecidos para IDs EMV.
  */
@@ -178,5 +184,82 @@ export default class ThunderUtils {
         // Usa a primeira URL válida encontrada
         const url = `https://${urls[0]}`;
         return { url, size: url.length };
+    }
+
+    public static pixTypeIdentify(chave: string): PixIdentifyOutput {
+        const tiposChave = [
+            {
+                type: 'cpf',
+                regex: /^\d{11}$/,
+                validator: function (chave: string) {
+                    return ThunderUtils.documentValidation(chave);
+                },
+                format: '/(\\d{3})(\\d{3})(\\d{3})(\\d{2})/',
+            },
+            {
+                type: 'phone',
+                regex: /^\d{11}$/,
+                validator: function (chave: string) {
+                    return /^(\d{2})(9\d{8}|\d{8})$/.test(chave);
+                },
+                format: '/\\+?(\\d{1,3})?(\\d{2})(\\d{4,5})(\\d{4})/',
+            },
+            {
+                type: 'cnpj',
+                regex: /^\d{14}$/,
+                format: '/(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})/',
+            },
+            {
+                type: 'email',
+                regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                format: '/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/',
+            },
+            {
+                type: 'token',
+                regex: /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,
+                format: '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/',
+            },
+        ];
+
+        for (let tipo of tiposChave) {
+            if (
+                tipo.regex.test(chave) &&
+                (!tipo.validator || tipo.validator(chave))
+            ) {
+                return {
+                    type: tipo.type,
+                    regex: tipo.format,
+                    status: true,
+                };
+            }
+        }
+
+        return { type: 'unknown', regex: '', status: false };
+    }
+
+    public static documentValidation(cpf: string) {
+        let soma = 0;
+        let resto;
+
+        if (cpf == '00000000000') return false;
+
+        for (let i = 1; i <= 9; i++) {
+            soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+        }
+
+        resto = (soma * 10) % 11;
+
+        if (resto == 10 || resto == 11) resto = 0;
+        if (resto != parseInt(cpf.substring(9, 10))) return false;
+
+        soma = 0;
+        for (let i = 1; i <= 10; i++) {
+            soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+        }
+
+        resto = (soma * 10) % 11;
+
+        if (resto == 10 || resto == 11) resto = 0;
+        return resto == parseInt(cpf.substring(10, 11));
     }
 }
