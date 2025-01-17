@@ -7,6 +7,11 @@ interface EMVItem {
 interface EMVObject {
     [key: string]: EMVItem;
 }
+interface PixIdentifyOutput {
+    type: string;
+    regex: string;
+    status: boolean;
+}
 export default class ThunderUtils {
     decodeJWT(token: string): {
         header: object;
@@ -22,5 +27,7 @@ export default class ThunderUtils {
         url: string;
         size: number;
     } | null;
+    static pixTypeIdentify(chave: string): PixIdentifyOutput;
+    static documentValidation(cpf: string): boolean;
 }
 export {};
