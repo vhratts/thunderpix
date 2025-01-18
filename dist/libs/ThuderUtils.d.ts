@@ -29,5 +29,6 @@ export default class ThunderUtils {
     } | null;
     static pixTypeIdentify(chave: string): PixIdentifyOutput;
     static documentValidation(cpf: string): boolean;
+    static validateEmail(email: string): boolean;
 }
 export {};

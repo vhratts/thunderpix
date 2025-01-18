@@ -186,7 +186,7 @@ export default class ThunderUtils {
         return { url, size: url.length };
     }
 
-    public static pixTypeIdentify(chave: string): PixIdentifyOutput {
+    static pixTypeIdentify(chave: string): PixIdentifyOutput {
         const tiposChave = [
             {
                 type: 'cpf',
@@ -211,8 +211,11 @@ export default class ThunderUtils {
             },
             {
                 type: 'email',
-                regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                format: '/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/',
+                regex: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                validator: function (chave: string) {
+                    return ThunderUtils.validateEmail(chave);
+                },
+                format: '/^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$/',
             },
             {
                 type: 'token',
@@ -261,5 +264,24 @@ export default class ThunderUtils {
 
         if (resto == 10 || resto == 11) resto = 0;
         return resto == parseInt(cpf.substring(10, 11));
+    }
+
+    public static validateEmail(email: string): boolean {
+        const famousProviders = [
+            'gmail.com',
+            'outlook.com',
+            'yahoo.com',
+            'hotmail.com',
+            'icloud.com',
+        ];
+
+        const regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+        if (!regex.test(email)) {
+            return false;
+        }
+
+        const domain = email.split('@')[1];
+        return famousProviders.includes(domain) || regex.test(email);
     }
 }
